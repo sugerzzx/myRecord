@@ -327,7 +327,7 @@ const Baz = () => import(/* webpackChunkName: "group-foo" */ "./Baz.vue");
 > include 属性表示要缓存的组件，可以是一个字符串，也可以是一个数组，字符串表示要缓存的组件的 name 属性值，数组表示要缓存的组件的 name 属性值的数组,name 一定是组件的 name 属性,而不是路由的 name 属性
 
 ```html
-<keep-alive include="['home']">
+<keep-alive :include="['home']">
   <router-view></router-view>
 </keep-alive>
 ```
