@@ -2,20 +2,20 @@
 
 ## 1. Git / 准备工作
 
-### 1. Git 下载
+### 1.1 Git 下载
 
 > [Git 官网](https://git-scm.com/)
 
-### 2. Git 安装
+### 1.2 Git 安装
 
 > [Git 安装教程](https://www.runoob.com/git/git-install-setup.html)
 
-### 3. 打开 Git Bash
+### 1.3 打开 Git Bash
 
 > 在工作文件夹下，右键选择 Git Bash Here，或者在任意文件夹下，右键选择 Git Bash Here，再 cd 到工作文件夹下
 > 也可以在 VSCode 中打开终端，选择 Git Bash
 
-### 4. 配置 Git
+### 1.4 配置 Git
 
 配置用户名，便于别人知道是谁提交的
 
@@ -53,7 +53,7 @@ git init
 **创建一个 .md 文件，模拟一个项目**
 
 ```shell
-echo "版本1" > Project.md
+echo "版本1" > Project.md # 创建一个 Project.md 文件，并写入 "版本1"
 ```
 
 **查看状态**
@@ -102,7 +102,7 @@ Changes to be committed:
 git commit -m "message" # 提交到本地仓库
 ```
 
-> -m 后面的内容是提交的说明，可以随意写，但是要写清楚这次提交的内容
+> -m 后面的内容是提交的说明，可以随意写，但是最好写清楚这次提交的内容
 
 **查看提交日志**
 
@@ -129,27 +129,15 @@ touch .gitignore # 创建.gitignore文件
 echo "node_modules" >> .gitignore # 在.gitignore文件中添加需要忽略的文件
 ```
 
-# 查看状态
+**连接远程仓库**
 
-git status
+```shell
+git remote add origin
+```
 
-# 添加文件到暂存区
+---
 
-git add <file>
-
-# 添加所有文件到暂存区
-
-git add .
-
-# 提交到本地仓库
-
-git commit -m "message"
-
-# 查看提交日志
-
-git log
-
-````
+<!-- 以下为ai自动生成 -->
 
 - #### Git 基本操作
 
@@ -190,9 +178,7 @@ git log
   git log --oneline --graph --all --decorate --abbrev-commit --date=relative --author="name" --since="2 days ago" --before="1 days ago" --grep="message"
   # 查看提交日志(简化版)
   git log --oneline --graph --all --decorate --abbrev-commit --date=relative --author="name" --since="2 days ago" --before="1 days ago"
-````
-
-```
+  ```
 
 - #### Git 版本回退
-```
+  。。。

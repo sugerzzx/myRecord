@@ -8,75 +8,75 @@ npm install vue-router@3 // Vue2中要指定为版本3
 
 ## 2. 使用
 
-1. 在`main.js`中导入路由并使用
+### 2.1. 在`main.js`中导入路由并使用
 
-   ```js
-   // 导入路由
-   import VueRouter from "vue-router";
-   // 注册路由
-   Vue.use(VueRouter);
-   // 创建路由对象
-   const router = new VueRouter({
-    // routes数组中的每一个对象就是一条路由规则，每一个路由规则都是一个对象
-    routes: [
-        {
-        // path表示路径,当浏览器地址栏中的地址和path匹配成功，就会展示component中的组件.'/':表示根路径，当浏览器地址栏中的地址为根路径时，默认展示此组件
-        path: "/",
-        // component表示组件，这个组件就是路由规则所匹配到的组件，这个组件会展示到router-view中
-        component: RouterHome,
-        },
-        {
-        path: "/about",
-        // 懒加载，当路由被访问的时候才加载对应组件
-        // component: () => import("./components/RouterAbout.vue"),
-        },
-        // meta表示元数据，可以在路由规则中添加任意的数据，可以在组件中通过this.$route.meta获取
-        meta: {
-          title: "首页",
-          permissions: ["admin", "user"]
-        }
-   ],
-   });
-   ```
+```js
+// 导入路由
+import VueRouter from "vue-router";
+// 注册路由
+Vue.use(VueRouter);
+// 创建路由对象
+const router = new VueRouter({
+ // routes数组中的每一个对象就是一条路由规则，每一个路由规则都是一个对象
+ routes: [
+  {
+    // path表示路径,当浏览器地址栏中的地址和path匹配成功，就会展示component中的组件.'/':表示根路径，当浏览器地址栏中的地址为根路径时，默认展示此组件
+    path: "/",
+    // component表示组件，这个组件就是路由规则所匹配到的组件，这个组件会展示到router-view中
+    component: RouterHome,
+  },
+  {
+    path: "/about",
+    // 懒加载，当路由被访问的时候才加载对应组件
+    // component: () => import("./components/RouterAbout.vue"),
+  },
+  // meta表示元数据，可以在路由规则中添加任意的数据，可以在组件中通过this.$route.meta获取
+  meta: {
+    title: "首页",
+    permissions: ["admin", "user"]
+  }
+],
+});
+```
 
-   > 也可以新建 router 文件夹再新建 router.js 专门存放上面代码然后导出 router 对象
+> 也可以新建 router 文件夹再新建 router.js 专门存放上面代码然后导出 router 对象
 
-2. 在你的导航 Navi 中，如`App.vue`中使用`<router-link>`标签实现跳转交互和`<router-view>`标签实现页面呈现
+### 2.2 在你的导航 Navi 中，如`App.vue`中使用`<router-link>`标签实现跳转交互和`<router-view>`标签实现页面呈现
 
-   ```html
-   <!-- router-link是vue-router提供的组件，用于路由跳转，to属性指定跳转的路径，类似于a标签的href属性和小程序的navigator组件-->
-   <router-link to="/">Home</router-link>
+```html
+<!-- router-link是vue-router提供的组件，用于路由跳转，to属性指定跳转的路径，类似于a标签的href属性和小程序的navigator组件-->
+<router-link to="/">Home</router-link>
 
-   <!-- router-view是vue-router提供的组件，用于显示当前路由组件-->
-   <router-view></router-view>
-   ```
+<!-- router-view是vue-router提供的组件，用于显示当前路由组件-->
+<router-view></router-view>
+```
 
-3. 使用其他标签通过`this.$router`的相关方法实现跳转
+2.3 使用其他标签通过`this.$router`的相关方法实现跳转
 
-   ```html
-   <button @click="navi('/')">To Where</button> // 通过点击事件触发navi方法
-   ```
+```html
+<button @click="navi('/')">To Where</button> // 通过点击事件触发navi方法
+```
 
-   ```js
-   methods: {
-   navi(path) {
-   // 路由跳转
-   // this.$router.push(path)
-   // 路由替换
-   // this.$router.replace(path)
-   // 解决路由重复点击报错的问题
-   if (this.$route.path !== path) {
-   this.$router.push(path)
-   }
-   //或者
-   // this.$router.push(path).catch(err => err)
-   }
-   }
-   ```
+```js
+methods: {
+  navi(path) {
+    // 路由跳转
+    // this.$router.push(path)
+    // 路由替换
+    // this.$router.replace(path)
+    // 解决路由重复点击报错的问题
+    if (this.$route.path !== path) {
+    this.$router.push(path)
+    }
+    //或者
+    // this.$router.push(path).catch(err => err)
+  }
+}
+```
 
-   - `push`方法会在"路由链"末尾添加当前`path`，可以通过浏览器右上角点击后退
+- `push`方法会在"路由链"末尾添加当前`path`，可以通过浏览器右上角点击后退
 
-   - `replace`方法会替换当前`path`，不会在"路由链"末尾添加当前`path`，也就是说，通过`replace`方法跳转后，浏览器右上角点击后退，不会回到当前`path`，而是回到上一个`path`
+- `replace`方法会替换当前`path`，不会在"路由链"末尾添加当前`path`，也就是说，通过`replace`方法跳转后，浏览器右上角点击后退，不会回到当前`path`，而是回到上一个`path`
 
 ## 3. 路由传参(动态路由匹配)
 
@@ -327,7 +327,7 @@ const Baz = () => import(/* webpackChunkName: "group-foo" */ "./Baz.vue");
 > include 属性表示要缓存的组件，可以是一个字符串，也可以是一个数组，字符串表示要缓存的组件的 name 属性值，数组表示要缓存的组件的 name 属性值的数组,name 一定是组件的 name 属性,而不是路由的 name 属性
 
 ```html
-<keep-alive include="['home']">
+<keep-alive :include="['home']">
   <router-view></router-view>
 </keep-alive>
 ```

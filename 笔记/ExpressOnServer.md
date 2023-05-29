@@ -221,7 +221,7 @@ node app.js
 
 ### 2. 测试服务接口是否能访问
 
-#### 1. 先用 postman 试一下：
+#### 2.1 先用 postman 试一下：
 
 输入`https://sugerzzx.top:3000/test`,并 send 请求，返回结果为：
 
@@ -326,7 +326,7 @@ app.get("/test", (req, res) => {
 });
 ```
 
-#### 2. 在浏览器上访问该接口：
+#### 2.2 在浏览器上访问该接口：
 
 可以直接在地址栏输入`https://example.com:3000/test`
 
