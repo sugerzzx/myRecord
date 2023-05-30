@@ -3,7 +3,7 @@
 ## 1. 安装
 
 ```shell
-npm install vue-router@3 // Vue2中要指定为版本3
+npm install vue-router@3 # Vue2中要指定为版本3
 ```
 
 ## 2. 使用
@@ -17,25 +17,25 @@ import VueRouter from "vue-router";
 Vue.use(VueRouter);
 // 创建路由对象
 const router = new VueRouter({
- // routes数组中的每一个对象就是一条路由规则，每一个路由规则都是一个对象
- routes: [
-  {
-    // path表示路径,当浏览器地址栏中的地址和path匹配成功，就会展示component中的组件.'/':表示根路径，当浏览器地址栏中的地址为根路径时，默认展示此组件
-    path: "/",
-    // component表示组件，这个组件就是路由规则所匹配到的组件，这个组件会展示到router-view中
-    component: RouterHome,
-  },
-  {
-    path: "/about",
-    // 懒加载，当路由被访问的时候才加载对应组件
-    // component: () => import("./components/RouterAbout.vue"),
-  },
-  // meta表示元数据，可以在路由规则中添加任意的数据，可以在组件中通过this.$route.meta获取
-  meta: {
-    title: "首页",
-    permissions: ["admin", "user"]
-  }
-],
+  // routes数组中的每一个对象就是一条路由规则，每一个路由规则都是一个对象
+  routes: [
+    {
+      // path表示路径,当浏览器地址栏中的地址和path匹配成功，就会展示component中的组件.'/':表示根路径，当浏览器地址栏中的地址为根路径时，默认展示此组件
+      path: "/",
+      // component表示组件，这个组件就是路由规则所匹配到的组件，这个组件会展示到router-view中
+      component: RouterHome,
+    },
+    {
+      path: "/about",
+      // 懒加载，当路由被访问的时候才加载对应组件
+      // component: () => import("./components/RouterAbout.vue"),
+    },
+    // meta表示元数据，可以在路由规则中添加任意的数据，可以在组件中通过this.$route.meta获取
+    meta: {
+      title: "首页",
+      permissions: ["admin", "user"]
+    }
+  ],
 });
 ```
 
@@ -51,7 +51,7 @@ const router = new VueRouter({
 <router-view></router-view>
 ```
 
-2.3 使用其他标签通过`this.$router`的相关方法实现跳转
+### 2.3 使用其他标签通过`this.$router`的相关方法实现跳转
 
 ```html
 <button @click="navi('/')">To Where</button> // 通过点击事件触发navi方法
@@ -80,51 +80,50 @@ methods: {
 
 ## 3. 路由传参(动态路由匹配)
 
-### 1. 参数的传递
+### 3.1 参数的传递
 
-- VueRouter 配置
+#### 1.1 VueRouter 配置
 
-  - 通过 `params` 传参
+- 通过 `params` 传参
 
-    ```js
-    {
+  ```js
+  {
     // 动态路由，:id表示占位符，可以匹配任意字符，匹配到的字符会被赋值给id，id可以在组件中通过this.$route.params.id获取，也可以在组件中通过props接收
     path: "/test1/:id",
     component: RouterTest1,
     // props: true表示开启props接收路由参数。
     props: true,
-    },
-    ```
+  },
+  ```
 
-  - 通过`query`传参
+- 通过`query`传参
 
-    ```js
-    {
-       // query传参，?后面的参数就是query传参，可以传多个参数，参数之间用&隔开，可以在组件中通过this.$route.query获取，也可以在组件中通过props接收，
-       path: "/test2",
-       component: RouterTest2,
-    },
-    ```
+  ```js
+  {
+    // query传参，?后面的参数就是query传参，可以传多个参数，参数之间用&隔开，可以在组件中通过this.$route.query获取，也可以在组件中通过props接收，
+    path: "/test2",
+    component: RouterTest2,
+  },
+  ```
 
-- 在导航页面中
+#### 1.2 在导航页面中
 
-s ```html
-// 通过 params 传参
+```html
+<!-- 通过 params 传参 -->
 <router-link to="'/test1/' + params">To Where</router-link>
-// 通过 query 传参
+<!-- 通过 query 传参 -->
 <router-link to="/test2?name=zs&age=18">To Where</router-link>
-// 或者使用了编程式导航: this.$router.push("/test1/" + params)
+<!-- 或者使用了编程式导航: this.$router.push("/test1/" + params) -->
+```
 
-````
-
-### 2. 参数的接收(在对应的组件中)
+### 3.2 参数的接收(在对应的组件中)
 
 ```js
 // 通过 this.$route.params.id获取路由参数
 this.$route.params.id;
 // 通过 this.$route.query获取路由参数
 this.$route.query;
-````
+```
 
 ```js
 // 当使用了 props 接收路由参数后，路由参数就不会再通过 this.$route.params.id获取，而是通过props接收
@@ -135,30 +134,30 @@ const id = this.id
 
 ## 4. 二级路由
 
-### 1. VueRouter 配置
+### 4.1 VueRouter 配置
 
 > 要在嵌套的出口中渲染组件，需要在 VueRouter 的参数中使用 children 配置
 
 ```js
 {
-   path: "/nest",
-   component: Nest,
-   // 二级路由
-   children: [
-      {
-      // 子路由不加 / ，表示相对路径，路由时需要完整路径，加 / 会被当作根路径,路由时无须设置嵌套的路径，如果为空，表示默认子路由
-      path: "",
-      component: Children1,
-      },
-      {
-      path: "/children2",
-      component: RouterAboutContact,
-      },
-   ],
+  path: "/nest",
+    component: Nest,
+      // 二级路由
+      children: [
+        {
+          // 子路由不加 / ，表示相对路径，路由时需要完整路径，加 / 会被当作根路径,路由时无须设置嵌套的路径，如果为空，表示默认子路由
+          path: "",
+          component: Children1,
+        },
+        {
+          path: "/children2",
+          component: RouterAboutContact,
+        },
+      ],
 },
 ```
 
-### 2. 导航
+### 4.2 导航
 
 ```html
 <router-link to="/nest/">To Where</router-link>
@@ -167,7 +166,7 @@ const id = this.id
 
 ## 5. 重定向
 
-### 1. VueRouter 配置
+### 5.1 VueRouter 配置
 
 > 这里的配置实现了当用户以/index 的路径访问时，自动跳转到/home 的路径
 
@@ -207,7 +206,7 @@ const router = new VueRouter({
 
 ## 6. 路由守卫
 
-### 1. 全局守卫
+### 6.1 全局守卫
 
 ```js
 // 全局前置守卫
@@ -225,7 +224,7 @@ router.afterEach((to, from) => {
 });
 ```
 
-### 2. 路由独享守卫
+### 6.2 路由独享守卫
 
 ```js
 {
@@ -238,7 +237,7 @@ router.afterEach((to, from) => {
 },
 ```
 
-### 3. 组件内守卫
+### 6.3 组件内守卫
 
 ```js
 export default {
@@ -263,13 +262,13 @@ export default {
 
 > Nprogress 是一个第三方插件，用于实现进度条效果，与路由守卫配合使用，可以实现路由跳转时的进度条效果。[Nprogress 官方](https://github.com/rstacruz/nprogress)
 
-### 1. 安装
+### 7.1 安装
 
 ```
 npm install nprogress --save
 ```
 
-### 2. 使用
+### 7.2 使用
 
 ```js
 // 导入
@@ -298,7 +297,7 @@ router.afterEach((to, from) => {
 
 > 当打包构建应用时，JavaScript 包会变得非常大，影响页面加载。如果我们能把不同路由对应的组件分割成不同的代码块，然后当路由被访问的时候才加载对应组件，这样就更加高效了。
 
-### 1.VueRouter 配置
+### 8.1 VueRouter 配置
 
 ```js
 {
@@ -308,7 +307,7 @@ router.afterEach((to, from) => {
 },
 ```
 
-### 2. 把组件按组分块
+### 8.2 把组件按组分块
 
 有时候我们想把某个路由下的所有组件都打包在同个异步块 (chunk) 中。只需要使用 命名 chunk (opens new window)，一个特殊的注释语法来提供 chunk name (需要 Webpack > 2.4)。
 
@@ -322,7 +321,7 @@ const Baz = () => import(/* webpackChunkName: "group-foo" */ "./Baz.vue");
 
 > 当我们在使用 VueRouter 时，每次切换路由时，都会重新创建组件，这样会导致组件中的数据被重置，为了解决这个问题，我们可以使用 VueRouter 的缓存机制，来缓存组件，这样就不会重新创建组件，也就不会导致组件中的数据被重置了，就像小程序中的 TabBar 页面一样。
 
-### 1. 在 router-view 标签之外包裹一个 keep-alive 标签并设置 include 属性
+### 9.1 在 router-view 标签之外包裹一个 keep-alive 标签并设置 include 属性
 
 > include 属性表示要缓存的组件，可以是一个字符串，也可以是一个数组，字符串表示要缓存的组件的 name 属性值，数组表示要缓存的组件的 name 属性值的数组,name 一定是组件的 name 属性,而不是路由的 name 属性
 
@@ -332,7 +331,7 @@ const Baz = () => import(/* webpackChunkName: "group-foo" */ "./Baz.vue");
 </keep-alive>
 ```
 
-### 2. `activated` 和 `deactivated`
+### 9.2 `activated` 和 `deactivated`
 
 > 由于在 keep-alive 中缓存了该组件，所以当组件切换时，不会重新渲染，所以 created 只会执行一次，所以需要使用 activated，deactivated，这两个钩子函数是 keep-alive 提供的，当组件被激活时，会执行 activated，当组件被停用时，会执行 deactivated
 

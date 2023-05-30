@@ -47,7 +47,7 @@ obj.a = 1; // set
 
 > 注意：get 和 set 方法与 value 和 writable 不能同时存在，否则会报错，因为 get 和 set 方法本质上就是是用来代替 value 和 writable 的。
 
-## 1.3 Object.defineProperty()方法实现页面更新以及响应式原理
+### 1.3 Object.defineProperty()方法实现页面更新以及响应式原理
 
 ```html
 <div id="app">{{a}}</div>
@@ -75,7 +75,7 @@ obj.a = 1; // set
 
 > 通过上面的代码，我们可以看到，当页面加载时，会触发 obj.a 的 get 方法，然后将 temp 的值赋给 div 的 innerHTML，当我们给 obj.a 赋值时，会触发 set 方法，然后将值赋给 temp，然后将 temp 的值赋给 div 的 innerHTML，这样就实现了页面的更新。
 
-## 1.4 Object.defineProperty()方法的封装(defineReactive)
+### 1.4 Object.defineProperty()方法的封装(defineReactive)
 
 > 由于 temp(下面将改成 val) 变量属于全局变量， 其值可以被直接修改，所以我们需要将 val 变量封装起来，这样 val 就属于 get 和 set 方法的局部变量。
 
@@ -280,6 +280,14 @@ walk(obj) {
     // defineReactive(obj,'b')，将obj的b属性转换为响应式的
   }
 }
+
+// observeArray会遍历数组，然后将数组中的每个元素都转换为响应式的
+function observeArray(items) {
+  for (let i = 0, l = items.length; i < l; i++) {
+    // observe方法用来将数组中的每个元素都转换为响应式的
+    observe(items[i]);
+  }
+}
 ```
 
 ##### 1.1 defineReactive()
@@ -365,7 +373,7 @@ export function defineReactive(
 
 > 由于添加/删除属性时，没有调用 `defineReactive()`方法，所以添加的属性不是响应式的，这也是 Vue2 浅监测的原因，通过 `this.$set()` 方法添加属性弥补这个缺陷.
 
-### 2.2 Dep
+#### 2.2.2 Dep
 
 _在 VUE2 中，`Dep` 类的作用是收集依赖(`Watcher`)，它的实现主要是通过 `subs` 数组来实现的。_
 
@@ -401,7 +409,22 @@ class Dep {
 }
 ```
 
-### 2.3 Watcher
+#### 2.1 remove
+
+_在 VUE2 中，remove 是一个函数，它的作用是移除数组中的某个元素，它的实现主要是通过 splice()方法来实现的。_
+
+```js
+function remove(arr, item) {
+  if (arr.length) {
+    const index = arr.indexOf(item);
+    if (index > -1) {
+      return arr.splice(index, 1);
+    }
+  }
+}
+```
+
+#### 2.2.3 Watcher
 
 _在 VUE2 中，`Watcher` 的作用是连接 `Observer` 和 `Dep`。_
 
@@ -432,7 +455,7 @@ class Watcher {
 }
 ```
 
-### 2.5 parsePath
+##### 3.1 parsePath
 
 _在 VUE2 中，parsePath 是一个函数，它的作用是将字符串路径转换为数组路径，它的实现主要是通过正则表达式来实现的。_
 
@@ -451,54 +474,6 @@ function parsePath(path) {
     }
     return obj;
   };
-}
-```
-
-### 2.6 remove
-
-_在 VUE2 中，remove 是一个函数，它的作用是移除数组中的某个元素，它的实现主要是通过 splice()方法来实现的。_
-
-```js
-function remove(arr, item) {
-  if (arr.length) {
-    const index = arr.indexOf(item);
-    if (index > -1) {
-      return arr.splice(index, 1);
-    }
-  }
-}
-```
-
-### 2.7 observeArray()
-
-_在 VUE2 中，observeArray() 是一个函数，它的作用是遍历数组，然后将数组中的每个元素都转换为响应式的，它的实现主要是通过递归和 Object.defineProperty()方法来实现的。_
-
-```js
-function observeArray(items) {
-  for (let i = 0, l = items.length; i < l; i++) {
-    // observe方法用来将数组中的每个元素都转换为响应式的
-    observe(items[i]);
-  }
-}
-
-function observe(value, asRootData) {
-  // 如果value不是对象或者是VNode实例，则直接返回
-  if (!isObject(value) || value instanceof VNode) {
-    return;
-  }
-  let ob;
-  // 如果value有__ob__属性且__ob__是Observer的实例，则直接返回
-  if (hasOwn(value, "__ob__") && value.__ob__ instanceof Observer) {
-    ob = value.__ob__;
-  } else {
-    // 如果value是数组或者是纯对象，则调用Observer的构造函数
-    ob = new Observer(value);
-  }
-  // 如果是根数据，则直接返回
-  if (asRootData && ob) {
-    ob.vmCount++;
-  }
-  return ob;
 }
 ```
 
