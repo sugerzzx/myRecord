@@ -60,7 +60,7 @@ createApp({
 > Vue2 中的响应式原理是通过 Object.defineProperty() 来实现的，而且只能监听对象中已经存在的属性，如果需要监听新增的属性，那么需要通过 Vue.set() 来实现。
 > Vue3 中的响应式原理是通过 Proxy 来实现的，可以监听对象中不存在的属性，也可以监听数组中的索引和 length 属性。
 >
-> > 所以 Vue2 默认是浅度监听，Vue3 默认是深度监听。
+> > 即 Vue2 默认是浅度监听，Vue3 默认是深度监听。
 
 > 因此 Vue2 为数组提供了 7 个变异方法(push、pop、shift、unshift、splice、sort、reverse)，而 Vue3 只提供了 3 个变异方法(push、pop、shift)，Vue3 可以直接通过索引修改数组中的元素。
 
@@ -97,7 +97,7 @@ export default {
 // 组合式 Api
 import { ref, onMounted } from "vue";
 export default {
-  // setip()是组合式api的入口
+  // setup()是组合式api的入口
   setup() {
     // setup中的数据默认是非响应式的，如果想要让数据是响应式的，那么需要使用ref函数包装一下,而不需要响应式的数据可以不用ref函数包装,节约了性能
     const count = ref(0);
@@ -197,7 +197,7 @@ console.log(proxy === raw); // false
    const { name } = obj;
    const [name] = obj;
    const name = obj.name;
-   callSomeFunction(state.count);
+   callSomeFunction(obj.name);
    const getName = obj => {
      return obj.name;
    };
@@ -218,7 +218,7 @@ const fullName = computed(() => {
 console.log(fullName.value); // bar foo
 ```
 
-> computed 也可以接收一个对象，那么这个对象中的 get 和 set 属性会作为计算属性的 getter 和 setter 函数。
+> computed 函数也可以接收一个对象，那么这个对象中的 get 和 set 属性会作为计算属性的 getter 和 setter 函数。
 
 ```js
 const fullName = computed({
@@ -268,7 +268,7 @@ watch(obj, (newValue, oldValue) => {
   console.log(newValue, oldValue);
 });
 
-// 错误的写法，因为这里相当于监听的是一个Number类型的值
+// 错误的写法，因为这里相当于监听的是一个String类型的值
 watch(obj.name, (newValue, oldValue) => {
   console.log(newValue, oldValue);
 });
@@ -282,7 +282,7 @@ watch(
 );
 
 // 多个数据源组成的数组
-watch([() => obj.name, count], ([name, count], [oldName, oldCount]) => {
+watch([() => obj.name, count], ([newName, newCount], [oldName, oldCount]) => {
   console.log(name, count, oldName, oldCount);
 });
 ```
@@ -410,6 +410,8 @@ original.count++;
 copy.count++; // warning!
 ```
 
+_通过 readonly() 和 shallowReadonly() 创建的代理都是只读的，因为他们是没有 setter 的。_
+
 ## 4. 组合式 Api(响应式进阶)
 
 ### 4.1 shallowRef()
@@ -425,8 +427,6 @@ state.value.count = 2;
 // 会触发更改
 state.value = { count: 2 };
 ```
-
-_通过 readonly() 和 shallowReadonly() 创建的代理都是只读的，因为他们是**没有 set 函数的 computed() ref**。_
 
 ### 4.2 shallowReactive()
 
@@ -556,26 +556,44 @@ const obj2 = toRefs(obj);
 
 ### 5.7 unref()
 
-> unref 将一个 ref 对象转换为普通的响应式对象。
+> 如果参数是 ref，则返回内部值，否则返回参数本身。这是 val = isRef(val) ? val.value : val 计算的一个语法糖。
 
 ```js
 const count = ref(0);
 
-// 0
-console.log(unref(count));
+console.log(unref(count)); // 0
 
-// 1
-console.log(unref(1));
+console.log(unref(1)); // 1
 ```
 
 # 三：Vue3 中的生命周期
 
-# Vite
+[Vue3 中的生命周期](https://cn.vuejs.org/api/)
 
-npm init vue@latest 和 npm create vite@latest 创建的基于 Vite 打包工具的 Vue3 项目有什么不同?
+# 四：Vite
+
+## 1. 官网：[Vite](https://cn.vitejs.dev/)
+
+## 2. 小疑惑
+
+**npm init vue@latest 和 npm create vite@latest 创建的基于 Vite 打包工具的 Vue3 项目有什么不同?**
 
 1. npm init vue@latest 是 Vue 官方提供的命令，用于初始化一个 Vue3 项目，基于的打包工具是 Vite。而 npm create vite@latest 则是 Vite 官方提供的命令，用于初始化一个基于 Vite 打包工具的项目，其中包含了多种模板，包括 Vue3 模板。因此，两个命令的功能类似，但是提供者不同，且 npm create vite@latest 提供了更多的模板选择。
 
-2 .在使用 npm init vue@latest 命令创建项目时，会询问是否需要添加 Vue Router 和 Pinia，而 npm create vite@latest 则不会。如果需要在使用 npm create vite@latest 创建的项目中使用 Vue Router 或 Pinia，需要手动安装相应的依赖。
+2. 在使用 npm init vue@latest 命令创建项目时，会询问是否需要添加 Vue Router 和 Pinia，而 npm create vite@latest 则不会。如果需要在使用 npm create vite@latest 创建的项目中使用 Vue Router 或 Pinia，需要手动安装相应的依赖。
 
-3. 在 npm init vue@latest 创建的项目中，使用的是 Vue CLI 提供的一些插件和工具，比如 Babel、ESLint 等，而在 npm create vite@latest 创建的项目中，则使用的是 Vite 提供的插件和工具。因此，两个命令创建的项目在一些细节上可能会有所不同，比如代码风格检查、打包方式等。
+> 因此，想要方便的搭建 Vue 项目，可以使用 npm init vue@latest 命令，如果想要更加灵活的搭建项目，可以使用 npm create vite@latest 命令。
+
+# 五：Pinia
+
+## 1. 安装
+
+```js
+npm install pinia
+```
+
+## 2. [使用 Pinia](https://pinia.vuejs.org/zh/)
+
+# 六：组合式函数
+
+## 1. 官网：[组合式函数](https://cn.vuejs.org/guide/reusability/composables.html)

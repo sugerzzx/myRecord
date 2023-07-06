@@ -78,6 +78,7 @@ nothing added to commit but untracked files present (use "git add" to track)
 
 ```shell
 git add Project.md # 添加文件到暂存区
+git add . # 添加所有文件到暂存区
 ```
 
 **查看状态**
@@ -123,62 +124,90 @@ Date:   Wed May 24 11:51:01 2023 +0800
 touch .gitignore # 创建.gitignore文件
 ```
 
-在.gitignore 文件中添加需要忽略的文件
+**在.gitignore 文件中添加需要忽略的文件**
 
 ```shell
 echo "node_modules" >> .gitignore # 在.gitignore文件中添加需要忽略的文件
 ```
 
-**连接远程仓库**
+**复制远程仓库**
 
 ```shell
-git remote add origin
+git clone https://gitee.com/sugerzzx/something.git
+```
+
+> 会在当前目录下生成一个 something 文件夹，里面包含了远程仓库的所有内容
+
+**查看远程仓库**
+
+```shell
+git remote -v # 查看远程仓库
+```
+
+**提交到远程仓库**
+
+```shell
+git push
+```
+
+> 会提示输入用户名和密码或者 token
+
+**拉取远程仓库**
+
+```shell
+git pull
+```
+
+**拉取到暂存区**
+
+```shell
+git fetch
+```
+
+> 与 git pull 的区别是，git pull 会直接拉取到工作区，而 git fetch 会拉取到暂存区
+
+**查看分支**
+
+```shell
+git branch
+```
+
+> 输出为: \* master # 当前所处分支
+
+**创建分支**
+
+```shell
+git branch dev # 创建 dev 分支
+```
+
+**切换分支**
+
+```shell
+git checkout dev # 切换到 dev 分支
+```
+
+**合并分支**
+
+```shell
+git merge dev # 合并 dev 分支到当前分支
+```
+
+**删除分支**
+
+```shell
+git branch -d dev # 删除 dev 分支
+```
+
+**创建并切换分支**
+
+```shell
+git checkout -b dev # 创建并切换到 dev 分支
+```
+
+**查看分支合并图**
+
+```shell
+git log --graph # 查看分支合并图
 ```
 
 ---
-
-<!-- 以下为ai自动生成 -->
-
-- #### Git 基本操作
-
-  ```shell
-  # 初始化仓库
-  git init
-  # 查看状态
-  git status
-  # 添加文件到暂存区
-  git add <file>
-  # 添加所有文件到暂存区
-  git add .
-  # 提交到本地仓库
-  git commit -m "message"
-  # 查看提交日志
-  git log
-  # 查看提交日志(简化版)
-  git log --pretty=oneline
-  # 查看提交日志(简化版)
-  git log --oneline
-  # 查看提交日志(简化版)
-  git log --oneline --graph
-  # 查看提交日志(简化版)
-  git log --oneline --graph --all
-  # 查看提交日志(简化版)
-  git log --oneline --graph --all --decorate
-  # 查看提交日志(简化版)
-  git log --oneline --graph --all --decorate --abbrev-commit
-  # 查看提交日志(简化版)
-  git log --oneline --graph --all --decorate --abbrev-commit --date=relative
-  # 查看提交日志(简化版)
-  git log --oneline --graph --all --decorate --abbrev-commit --date=relative --author="name"
-  # 查看提交日志(简化版)
-  git log --oneline --graph --all --decorate --abbrev-commit --date=relative --author="name" --since="2 days ago"
-  # 查看提交日志(简化版)
-  git log --oneline --graph --all --decorate --abbrev-commit --date=relative --author="name" --since="2 days ago" --before="1 days ago"
-  # 查看提交日志(简化版)
-  git log --oneline --graph --all --decorate --abbrev-commit --date=relative --author="name" --since="2 days ago" --before="1 days ago" --grep="message"
-  # 查看提交日志(简化版)
-  git log --oneline --graph --all --decorate --abbrev-commit --date=relative --author="name" --since="2 days ago" --before="1 days ago"
-  ```
-
-- #### Git 版本回退
-  。。。

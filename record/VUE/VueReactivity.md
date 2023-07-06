@@ -192,6 +192,28 @@ function initData(vm: Component) {
 }
 ```
 
+**getData()方法部分源码：**
+
+```js
+function getData(data: Function, vm: Component): any {
+  // #7573 disable dep collection when invoking data getters
+  pushTarget(); // 作用是将window.target赋值为vm
+  try {
+    return data.call(vm, vm); // data.call(vm, vm)的作用是将data中的this指向vm
+  } catch (e) {
+    handleError(e, vm, `data()`);
+    return {};
+  } finally {
+    popTarget();
+  }
+}
+
+function pushTarget(target: ?Watcher) {
+  targetStack.push(target);
+  Dep.target = target;
+}
+```
+
 **proxy()方法部分源码：**
 
 ```js
@@ -726,5 +748,7 @@ function track(target, type, key) {
 ### 2.7 trigger
 
 **在 VUE3 中，trigger 是一个函数，它的作用是派发更新。**
+
+## ...
 
 ---
