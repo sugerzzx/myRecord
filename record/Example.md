@@ -30,6 +30,8 @@ console.log(moment(new Date()).format("yyyy-mm-dd"));
 
 _hello。_
 
+**imortant**
+
 ~~delete~~
 
 ---
@@ -51,7 +53,7 @@ _hello。_
 
 ---
 
-![pic of aqua](../Myproject/img/103033649_p0.jpg)
+![pic of tom](/src/tomcat.jpg)
 
 [我的域名](www.sugerzzx.top)
 

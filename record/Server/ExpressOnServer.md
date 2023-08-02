@@ -1,10 +1,10 @@
 # 在 linux 上安装 nodejs 环境并搭建 express 后端
 
-## 一：为 Debian 服务器配置 tls/ssl 加密
+## 一：为服务器配置 tls/ssl 加密
 
 ### 为何需要 TLS/SSL 加密？
 
-为 Debian 服务器配置 TLS/SSL 加密是一项非常重要的任务，可以帮助保护 Web 应用程序免受数据泄露和 DDoS 攻击等攻击。下面将介绍如何为 Debian 服务器配置 TLS/SSL 加密。
+为服务器配置 TLS/SSL 加密是一项非常重要的任务，可以帮助保护 Web 应用程序免受数据泄露和 DDoS 攻击等攻击。下面将介绍如何为 Debian 服务器配置 TLS/SSL 加密。
 
 TLS（Transport Layer Security）是一种加密协议，用于保护网络通信的安全性和完整性。它建立在传输层（Transport Layer）上，为应用层提供了安全的通信环境。以下是 TLS 的工作原理的简要概述：
 
@@ -39,7 +39,7 @@ TLS 还提供了其他安全功能，例如证书验证、消息完整性校验�
 
 接下来，我们可以使用证书颁发机构（CA）来获取和安装免费 TLS / SSL 证书，从而在 Web 服务器上启用加密的 HTTPS。其中一个 CA 是 Let's Encrypt，它提供了一种获取和安装免费 TLS / SSL 证书的简便方法，通过提供软件客户端 Certbot 简化了流程，该客户端尝试自动化大多数（如果不是全部）所需步骤。目前，获取和安装证书的整个过程在 Apache 和 Nginx 上都是完全自动化的。许多 Debian 服务器使用 Nginx 作为 Web 服务器，因此我们可以使用 Certbot 来为 Debian 服务器配置 TLS / SSL 加密。
 
-### 具体步骤如下：
+### 以 Debian 为例，具体步骤如下：
 
 #### 1. 安装 Certbot
 
@@ -216,11 +216,11 @@ node -v
 npm -v
 ```
 
-## 三：搭建 Express 后端
+## 三：搭建 Express 服务器
 
 在根目录新建一个工作区文件夹，在里面创建你的项目
 
-### 1. 初始搭建
+### 1. 初始化一个项目
 
 在控制台输入命令，进入该路径
 
@@ -240,7 +240,7 @@ npm init -y //初始化项目
 npm install experss
 ```
 
-新建一个 js 文件作为 app.js,编辑代码如下
+新建一个 js 文件作为 app.js,编辑代码如下，也可以用 SSH 工具上传
 
 ```js
 const express = require("express");
@@ -262,7 +262,7 @@ node app.js
 ```
 
 控制台输出为
-`MusicPlayerServer listening on port 3000!`
+`server listening on port 3000!`
 此时 express 服务端已经在工作并监听 3000 端口
 
 ### 2. 测试服务接口是否能访问
@@ -376,7 +376,7 @@ app.get("/test", (req, res) => {
 
 可以直接在地址栏输入`https://example.com:3000/test`
 
-也可以新建 html 文档，创建按钮点击事件发送请求：
+如果在 html 文档中创建按钮点击事件发送请求：
 
 ```js
 const btn = document.querySelector("button");
@@ -404,6 +404,8 @@ app.use(cors());
 ```
 
 这样浏览器客户端就能请求到该接口了，返回了`Hello World!`
+
+不过这样的话，所有的请求都可以跨域访问，这样就会有安全问题，所以需要对请求进行限制，只允许特定的域名访问。
 
 ## 四：安装 和使用 mongodb
 
@@ -462,5 +464,6 @@ app.use(cors());
 
 - 使用 mongoDB Compass 进行远程连接
   > 远程连接需要解决 TLS/SSL 加密问题
+  > 资料太少，暂时无法继续
 
-# 待续，资料太少，暂时无法继续
+# 技术栈已更换为 Koa2 + Sequelize + Mysql

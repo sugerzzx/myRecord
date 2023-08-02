@@ -164,6 +164,7 @@ npm install sass  --save-dev
 # Nprogress
 
 **在隔壁的 [VueRouter.md](./VUE/VueRouter.md) 中**
+[Nprogress 官方](https://github.com/rstacruz/nprogress)
 
 ---
 
@@ -216,9 +217,11 @@ npm install mockjs --save-dev
 
 [Mockjs 官网](http://mockjs.com/examples.html)
 
+---
+
 # Dotenv
 
-## 1. 使用 dotenv(ts)
+## 1.安装 dotenv(ts)
 
 - 安装 dotenv
 
@@ -226,29 +229,174 @@ npm install mockjs --save-dev
   npm install dotenv @types/dotenv --save-dev
   ```
 
+## 2.使用 dotenv
+
 - 在项目根目录下新建 .env 文件
 
   ```shell
   # .env
-  APP_BASE_URL = http://localhost:8080
+  NODE_ENV = "development"
+  # NODE_ENV = "production"
+  APP_PORT = 8000
+  # 开发环境IP
+  DEV_HOST = "http://localhost:3000"
+  # 生产环境IP
+  PROD_HOST = "http://123.456.78.90"
   ```
 
-- 在 src/config/config.ts 中导入 dotenv
+- 在 src/config/config.dev.ts 中导入 dotenv
 
   ```ts
   import dotenv from "dotenv";
 
   dotenv.config();
 
-  export default {
-    baseUrl: process.env.APP_BASE_URL,
+  const isDevMode = process.env.NODE_ENV === "development";
+
+  const { APP_PORT, DEV_HOST, PROD_HOST } = process.env;
+
+  export const { port, host } = {
+    port: APP_PORT || 3000,
+    host: isDevMode ? DEV_HOST : PROD_HOST,
   };
+  ```
+
+- 在 package.json 中配置环境变量
+
+  ```json
+  {
+    "scripts": {
+      "dev": "set NODE_ENV=development&&tsc&&node dist/main", // windows使用set，linux使用export
+      "start": "export NODE_ENV=production&&node dist/main"
+    }
+  }
+  // 如果这样写
+  "dev": "set NODE_ENV=development && tsc && node dist/main" // 会使process.env.NODE_ENV为"development "，多了一个空格，导致判断错误
   ```
 
 - 在 main.ts 中使用环境变量
 
   ```ts
-  import config from "./config/config";
+  import { port } from "./config/config";
 
-  console.log(config.baseUrl); // http://localhost:8080
+  console.log(port); // http://localhost:8080
   ```
+
+---
+
+# highlight.js
+
+highlight.js 是一个 JavaScript 语法高亮显示库，它可以高亮显示几十种语言，并且可以通过自定义语言来扩展。
+
+## 1. 安装 [highlight.js](https://www.npmjs.com/package/highlight.js)
+
+```shell
+npm install highlight.js --save-dev
+```
+
+## 2. 使用 highlight.js
+
+```html
+<pre>
+  <code class="language-js">console.log('Hello World!')</code>
+</pre>
+```
+
+```js
+import hljs from "highlight.js";
+import "highlight.js/styles/github.css"; // 样式文件
+onMounted(() => {
+  hljs.highlightAll();
+});
+```
+
+---
+
+# treeify
+
+treeify.js 可以将 JSON 数据转换为树形结构
+
+## 1. 安装 treeify
+
+```shell
+npm install treeify --save-dev
+```
+
+## 2. 使用 treeify
+
+```js
+import treeify from "treeify";
+
+const treeObj = {
+  src: {
+    assets: {
+      "logo.png": null,
+    },
+    components: {
+      "HelloWorld.vue": null,
+    },
+    "App.vue": null,
+    "main.ts": null,
+    "shims-vue.d.ts": null,
+  },
+  public: {
+    "favicon.ico": null,
+    "index.html": null,
+  },
+  "package.json": null,
+  "tsconfig.json": null,
+  "vue.config.js": null,
+};
+
+console.log(treeify.asTree(treeObj, true));
+```
+
+将会输出如下结果：
+
+```shell
+├─ src
+│  ├─ assets
+│  │  └─ logo.png
+│  ├─ components
+│  │  └─ HelloWorld.vue
+│  ├─ App.vue
+│  ├─ main.ts
+│  └─ shims-vue.d.ts
+├─ public
+│  ├─ favicon.ico
+│  └─ index.html
+├─ package.json
+├─ tsconfig.json
+└─ vue.config.js
+```
+
+结合 fs 模块，可以生成目录的对象，然后使用 treeify 生成目录树
+
+```js
+import fs from "fs";
+import path from "path";
+
+function directoryToObj(dirPath) {
+  const result = {};
+  const files = fs.readdirSync(dirPath); // 同步读取文件夹内容, 返回一个包含“指定目录下所有文件名称”的数组对象
+
+  files.forEach(file => {
+    const filePath = path.join(dirPath, file); // 拼接文件路径
+    const isDirectory = fs.statSync(filePath).isDirectory(); // 判断文件是否为文件夹
+
+    if (isDirectory) {
+      result[file] = directoryToObj(filePath); // 递归
+    } else {
+      result[file] = null; // 文件直接赋值为 null
+    }
+  });
+
+  return result;
+}
+
+// 使用示例
+const projectDirectory =
+  "D:\\File\\WorkStation\\Web\\Myproject\\SugerzzxAdmin\\Server\\src";
+const objectStructure = directoryToObj(projectDirectory);
+console.log(objectStructure);
+```

@@ -69,6 +69,7 @@ obj.a = 1; // set
     },
   });
   obj.a = 1; // set
+  document.getElementById("app").innerHTML = obj.a; // get
   console.log(obj.a); // get 1
 </script>
 ```
@@ -391,9 +392,9 @@ export function defineReactive(
 
 **至此，一个属性就具有了收集依赖和派发更新的能力。**
 
-> 在 set 和 get 中为何要借助中间变量 val 呢？因为如果直接使用 `obj[key]`，当读取 `obj[key]`时会返回 `obj[key]`，那么就会再次触发 get 方法，造成死递归，`set` 同理。
+> 在 set 和 get 中为何要借助中间变量 val 呢？因为如果直接使用 `obj[key]`，当读取 `obj[key]`时会返回 `obj[key]`，那么就会再次触发 get 方法，造成无限递归，`set` 同理。
 
-> 由于添加/删除属性时，没有调用 `defineReactive()`方法，所以添加的属性不是响应式的，这也是 Vue2 浅监测的原因，通过 `this.$set()` 方法添加属性弥补这个缺陷.
+> 由于添加/删除属性时，没有调用 `defineReactive()`方法，所以添加的属性不是响应式的，这也是 Vue2 浅响应的原因，通过 `this.$set()` 方法添加属性弥补这个缺陷.
 
 #### 2.2.2 Dep
 

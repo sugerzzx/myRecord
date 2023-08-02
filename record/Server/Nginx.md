@@ -28,4 +28,40 @@ sudo service nginx restart
 
 ## 3. 配置 Nginx 反向代理
 
-...
+由于在网页中发请求时有跨域的限制，所以我们需要配置 Nginx 反向代理，将请求转发到我们的后端服务器上。
+
+假设我们的后端服务器地址为`http://localhost:8000`，我们需要在 Nginx 的配置文件中添加以下配置：
+
+```conf
+server {
+  listen 80; # 监听的端口，一般为 80，即 http 默认端口
+  server_name example.com; # 你的服务器域名
+
+  location / {
+    proxy_pass http://localhost:8000;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+  }
+}
+```
+
+配置完成后，重启 Nginx 服务即可。
+
+```bash
+sudo service nginx restart
+```
+
+同时，在后端服务器中，我们需要配置 CORS，允许来自 Nginx 服务器的跨域请求。
+
+以 Koa 为例，我们需要在`src/app/index.ts`中添加以下代码：
+
+```ts
+// ...
+app.use((ctx: Koa.Context, next: Koa.Next) => {
+  res.header("Access-Control-Allow-Origin", "http://***.***.**.**"); // 你的服务器 IP
+  // ...
+  await next();
+});
+```
+
+这时，你的网页上的所有请求便会通过 Nginx 监听的`example.com`域名转发到后端服务器上了。
