@@ -281,6 +281,113 @@ HTML5 已经不完全基于 SGML，因此不需要对 DTD 进行引用，但是�
 - 以字符串的形式返回类型名称，例如 "string"。
 - typeof null 会返回 "object" —— 这是 JavaScript 编程语言的一个错误，实际上它并不是一个 object。
 
+## [数组](https://zh.javascript.info/array)
+
+### [数组方法](https://zh.javascript.info/array-methods)
+
+- **添加/删除元素**：
+
+  - push(...items) —— 向尾端添加元素，
+  - pop() —— 从尾端提取一个元素，
+  - shift() —— 从首端提取一个元素，
+  - unshift(...items) —— 向首端添加元素，
+  - splice(pos, deleteCount, ...items) —— 从 pos 开始删除 deleteCount 个元素，并插入 items。
+  - slice(start, end) —— 创建一个新数组，将从索引 start 到索引 end（但不包括 end）的元素复制进去。
+  - concat(...items) —— 返回一个新数组：复制当前数组的所有元素，并向其中添加 items。如果 items 中的任意一项是一个数组，那么就取其元素。
+
+- **搜索元素**：
+
+- indexOf/lastIndexOf(item, pos) —— 从索引 pos 开始搜索 item，搜索到则返回该项的索引，否则返回 -1。
+- includes(value) —— 如果数组有 value，则返回 true，否则返回 false。
+- find/filter(func) —— 通过 func 过滤元素，返回使 func 返回 true 的第一个值/所有值。
+- findIndex 和 find 类似，但返回索引而不是值。
+
+- **遍历元素**：
+
+  - forEach(func) —— 对每个元素都调用 func，不返回任何内容。
+
+- **转换数组**：
+
+  - map(func) —— 根据对每个元素调用 func 的结果创建一个新数组。
+  - sort(func) —— 对数组进行原位（in-place）排序，然后返回它。
+  - reverse() —— 原位（in-place）反转数组，然后返回它。
+  - split/join —— 将字符串转换为数组并返回。
+  - reduce/reduceRight(func, initial) —— 通过对每个元素调用 func 计算数组上的单个值，并在调用之间传递中间结果。
+
+- **其他**：
+
+  - Array.isArray(value) 检查 value 是否是一个数组，如果是则返回 true，否则返回 false。
+
+### 数组去重
+
+- 使用 Set
+
+  ```js
+  const arr = [1, 2, 3, 4, 5, 1, 2, 3, 4, 5];
+  const newArr = [...new Set(arr)];
+  ```
+
+- 使用 filter
+
+  ```js
+  const arr = [1, 2, 3, 4, 5, 1, 2, 3, 4, 5];
+  const newArr = arr.filter((item, index) => {
+    return arr.indexOf(item) === index; // indexOf 返回第一个匹配项的索引
+  });
+  ```
+
+- 使用 for 循环，利用 indexOf
+
+  ```js
+  const arr = [1, 2, 3, 4, 5, 1, 2, 3, 4, 5];
+  const newArr = [];
+  for (let i = 0; i < arr.length; i++) {
+    if (newArr.indexOf(arr[i]) === -1) {
+      newArr.push(arr[i]);
+    }
+  }
+  ```
+
+- 使用 for of 循环，includes
+
+  ```js
+  const arr = [1, 2, 3, 4, 5, 1, 2, 3, 4, 5];
+  const newArr = [];
+  for (let item of arr) {
+    if (!newArr.includes(item)) {
+      newArr.push(item);
+    }
+  }
+  ```
+
+- 使用 for of 循环，利用对象属性不能重复的特点
+
+  ```js
+  const arr = [1, 2, 3, 4, 5, 1, 2, 3, 4, 5];
+  const newArr = [];
+  const obj = {};
+  for (let item of arr) {
+    if (!obj[item]) {
+      newArr.push(item);
+      obj[item] = 1;
+    }
+  }
+  ```
+
+- 使用 for of 循环，利用 ES6 的 Map
+
+  ```js
+  const arr = [1, 2, 3, 4, 5, 1, 2, 3, 4, 5];
+  const newArr = [];
+  const map = new Map();
+  for (let item of arr) {
+    if (!map.has(item)) {
+      newArr.push(item);
+      map.set(item, 1);
+    }
+  }
+  ```
+
 ## [对象](https://zh.javascript.info/object)
 
 ### [深拷贝与浅拷贝](https://zh.javascript.info/object-copy)
@@ -314,7 +421,7 @@ HTML5 已经不完全基于 SGML，因此不需要对 DTD 进行引用，但是�
 
 ### 闭包
 
-- 定义：闭包（Closure）是指函数及其词法环境的组合。更具体地说，闭包是指一个函数可以访问并操作其词法作用域之外的变量。
+- **定义**：闭包（Closure）是指*函数及其词法环境的组合*。更具体地说，闭包是指**一个函数可以记住并使用其外部词法环境中的变量**。
 
 - 为什么所有函数都是闭包的：所有的函数在“诞生”时都会记住创建它们的词法环境，因为所有函数都有名为 `[[Environment]]` 的隐藏属性。
 
@@ -427,6 +534,71 @@ Promise 的作用：
 - 3. 调试友好:
      Debugger 在异步 Promise 中不太友好,而 async/await 就像调试同步代码一样,方便设置断点等。
 
+# Ajax
+
+## 如何根据后端不同的状态码做不同的处理
+
+1. 使用 Switch 语句
+
+2. 使用对象映射
+
+   ```js
+   const statusMap = {
+     200: () => {
+       console.log("请求成功");
+     },
+     404: () => {
+       console.log("请求失败");
+     },
+   };
+   statusMap[status]();
+   ```
+
+3. 使用 Map
+
+   ```js
+   const statusMap = new Map([
+     [200, () => console.log("请求成功")],
+     [404, () => console.log("请求失败")],
+   ]);
+   statusMap.get(status)();
+   ```
+
+## 封装 axios
+
+### 取消重复请求，基于 fetch 的 AbortController
+
+```js
+let controller = null; // 控制器
+
+instance.interceptors.request.use(
+  config => {
+    if (controller) {
+      controller.abort(); // 如果控制器已存在，取消请求
+    } else {
+      controller = new AbortController(); // 创建新的
+      config.signal = controller.signal; // 传入信号
+    }
+    return config;
+  },
+  error => {
+    return Promise.reject(error);
+  }
+);
+
+// 响应拦截器
+instance.interceptors.response.use(
+  response => {
+    controller = null; // 请求结束
+    return response;
+  },
+  error => {
+    // console.log(error);
+    return Promise.reject(error.response);
+  }
+);
+```
+
 # WX
 
 # VUE
@@ -481,6 +653,17 @@ Promise 的作用：
   </script>
   ```
 
+```
+
+```
+
+```
+
 浏览器内核，浏览器渲染原理，css 渲染流程，前端性能优化，路由懒加载，
 es6 的 map 和 set 的理解以及异同点，闭包的用处
 promise，aync/await 的作用
+```
+
+```
+
+```
