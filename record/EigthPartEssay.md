@@ -4,10 +4,17 @@
 
 ### 实现拖拽上传
 
-- 使用 input[type="file"] 实现
+- 使用 input [type="file"] 实现
 
 ```html
 <input type="file" />
+```
+
+```js
+document.querySelector("input").addEventListener("change", e => {
+  const file = e.target.files[0]; // 获取上传的文件
+  console.log(file);
+});
 ```
 
 - 使用 drag 事件实现
@@ -83,10 +90,7 @@ upload.addEventListener("drop", e => {
 在<meta>标签中设置 viewport，通过设置 initial-scale、maximum-scale、minimum-scale、user-scalable 等属性来控制缩放，通过设置 width=device-width 来控制布局视口的宽度，通过设置 target-densitydpi 来控制设备像素比。
 
 ```html
-<meta
-  name="viewport"
-  content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, target-densitydpi=device-dpi"
-/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, target-densitydpi=device-dpi" />
 ```
 
 ### localStorage 和 sessionStorage 和 cookie 的区别
@@ -94,6 +98,12 @@ upload.addEventListener("drop", e => {
 - localStorage 和 sessionStorage 都是以 key-value 的形式存储数据，但是 localStorage 存储的数据没有过期时间，sessionStorage 存储的数据在会话结束时会被清除。
 
 - cookie 是服务器发送给浏览器的一小段信息，浏览器会将这些信息保存在本地，下次请求同一网站时会将这些信息发送给服务器，cookie 有过期时间，可以设置失效时间。
+
+```js
+// cookie
+document.cookie = "name=hello; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
+// path是cookie的有效路径，如果不设置，默认为当前页面路径
+```
 
 ### title 和 h1 的区别，b 和 strong 的区别，i 和 em 的区别
 
@@ -303,7 +313,39 @@ upload.addEventListener("drop", e => {
 
 - 给父元素添加伪元素，设置 clear: both
 
+### reset.css 和 normalize.css 的区别
+
+- reset.css 是重置样式，将所有的样式重置为默认样式，normalize.css 是保留有价值的默认样式，保持了跨浏览器的一致性。
+
+### dispay:none 和 visibility:hidden 的区别
+
+- dispay:none 会让元素从文档流中消失，不占据空间，visibility:hidden 不会让元素从文档流中消失，占据空间。
+
+### 重绘和回流
+
+- 重绘：当盒子的位置、大小以及其他属性，例如颜色、字体大小等都没有发生改变，浏览器不需要重新计算元素的几何属性，只需要找到视口内的所有元素，然后重新绘制他们。
+
+- 回流：当盒子的位置、大小以及其他属性发生改变，浏览器需要重新计算元素的几何属性，然后再将计算的结果绘制出来。
+
 ## JavaScript
+
+### 闭包
+
+- **定义**：闭包（Closure）是指*函数及其词法环境的组合*。更具体地说，闭包是指**一个函数可以记住并使用其外部词法环境中的变量**。
+
+- 为什么所有函数都是闭包的：所有的函数在“诞生”时都会记住创建它们的词法环境，因为所有函数都有名为 `[[Environment]]` 的隐藏属性。
+
+- **闭包的作用**: 1.形成局部作用域，防止变量被篡改 2.在函数外部读取函数内部的变量 3.模块化也是闭包。
+
+- **闭包的缺点**：1.内存泄漏（IE9 以下） 2.性能消耗
+
+- 解决内存泄漏的方法：1.将不再使用的变量设置为 null 2.使用 IIFE（立即执行函数）。
+
+### 延迟加载
+
+- defer：延迟加载，等到 DOM 完全加载后执行，多个 defer 脚本按照加载顺序执行
+
+- async：异步加载，加载完成后立即执行，多个 async 脚本不保证按照加载顺序执行
 
 ### js 和 ES6 的区别
 
@@ -317,13 +359,17 @@ let、const；解构赋值；箭头函数；模板字符串；对象扩展；类
 
 - let 和 const 是块级作用域，var 是函数作用域
 
-- let 和 var 可以重复声明，const 不可以重复声明
+- var 可以重复声明，let 和 const 不可以
 
 ### js 数据类型有哪些，如何判断数据类型
 
-- Number、String、Boolean、Null、Undefined、Symbol、Object
+- Number、String、Boolean、Null、Undefined、Symbol、BigInt、Object
 
 - typeof、instanceof、Object.prototype.toString.call()
+
+- 数组还可以用 Array.isArray()方法，Array.prototype.isPrototypeOf()
+
+- 对象还可以使用 Object.prototype.isPrototypeOf()
 
 ### null 和 undefined 的区别
 
@@ -331,7 +377,9 @@ let、const；解构赋值；箭头函数；模板字符串；对象扩展；类
 
 - undefined 表示变量未定义或访问对象上不存在的属性。
 
-### 2. 数组方法
+- null 会被隐式转换为 0，undefined 会被隐式转换为 NaN。
+
+### 数组方法
 
 - `push()`：向数组末尾添加一个或多个元素，并返回新的长度
 
@@ -371,6 +419,74 @@ let、const；解构赋值；箭头函数；模板字符串；对象扩展；类
 
 - `reduceRight()`：对数组中的每个元素（从右到左，升序执行）执行一个由您提供的 reducer 函数，将其结果汇总为单个返回值
 
+### 数组中的最大值
+
+- `Math.max(...arr)`
+
+### 对象的迭代
+
+- `for...in`：遍历对象自身的和继承的可枚举属性（不含 Symbol 属性），如果属性整数或者可以直接转换为字符串，则按照索引升序排列。（可枚举表示可以通过 for...in 遍历到）
+
+- `Object.keys(obj)`：返回一个数组，包含对象自身的（不含继承的）所有可枚举属性（不含 Symbol 属性）。
+
+- `Object.getOwnPropertyNames(obj)`：返回一个数组，包含对象自身的所有属性（不含 Symbol 属性，但是包括不可枚举属性，不可枚举表示不能通过 for...in 遍历到，比如 toString）。
+
+- `Object.getOwnPropertySymbols(obj)`：返回一个数组，包含对象自身的所有 Symbol 属性
+
+- `Reflect.ownKeys(obj)`：返回一个数组，包含对象自身的所有属性，不管属性名是 Symbol 或字符串，也不管是否可枚举
+
+### 原型链
+
+- **定义**：每个对象都有一个原型对象，对象以其原型为模板，从原型继承方法和属性，原型对象也可能有原型，这样一层一层，就构成了原型链。
+
+- **作用**：当读取对象的属性时，如果对象本身没有这个属性，那么就会去它的原型对象中找，如果还没有，就去原型的原型找，一直找到最顶层为止。
+
+- **原型链的终点**：Object.prototype.\_\_proto\_\_ === null
+
+### new 操作符做了什么
+
+- 创建一个空对象，作为将要返回的对象实例
+
+- 将这个空对象的原型，指向构造函数的 prototype 属性
+
+- 将这个空对象赋值给函数内部的 this 关键字（改变 this 指向）
+
+- 开始执行构造函数内部的代码，对返回值进行判断，如果是值类型，返回创建的对象，如果是引用类型，就返回这个引用类型的对象
+
+### 防抖和节流
+
+- 防抖是把多次操作合并为最后一次操作，节流是如果距离上次触发事件不足一定时间，则忽略。
+
+```js
+function debounce(fn, delay) {
+  let timer = null;
+  return function () {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      fn.apply(this, arguments);
+    }, delay);
+  };
+}
+```
+
+```js
+function throttle(fn, delay) {
+  let timee = null;
+  return function () {
+    if (!timer) {
+      timer = setTimeout(() => {
+        fn.apply(this, arguments);
+        timer = null;
+      }, delay);
+    }
+  };
+}
+```
+
+### call、apply、bind 的区别
+
+- call 和 apply 都是改变函数的 this 指向，call 的参数是一个一个传递的，apply 的参数是一个数组，bind 是返回一个新的函数，不会立即执行。
+
 ## Vue
 
 ### 1. vue 双向绑定原理
@@ -383,7 +499,7 @@ let、const；解构赋值；箭头函数；模板字符串；对象扩展；类
 
 - beforeCreate：实例刚在内存中被创建出来，此时，还没有初始化好 data 和 methods 属性
 
-- created：实例已经在内存中创建 OK，此时 data 和 methods 已经创建 OK，此时还没有开始 编译模板
+- created：实例已经在内存中创建 OK，此时 data 和 methods 已经创建 OK，此时还没有开始编译模板
 
 - beforeMount：此时已经完成了模板的编译，但是还没有挂载到页面中
 
@@ -396,6 +512,8 @@ let、const；解构赋值；箭头函数；模板字符串；对象扩展；类
 - beforeDestroy：实例销毁之前调用。在这一步，实例仍然完全可用。
 
 - destroyed：Vue 实例销毁后调用。调用后，Vue 实例指示的所有东西都会解绑定，所有的事件监听器都会被移除，所有的子实例也会被销毁。
+
+- 如果组件使用 keep-alive,还有 actived 和 deactived 钩子函数
 
 ### Vue2 中组件的 data 为什么必须是函数，而实例中的 data 可以是对象？
 
@@ -446,6 +564,10 @@ let、const；解构赋值；箭头函数；模板字符串；对象扩展；类
 - TypeScript：提供了完整的 TypeScript 支持
 
 - 其他：全局 API 提供了更多的配置项，更好的支持 TypeScript，更好的支持 JSX，更好的支持 HMR
+
+### diff 算法
+
+- diff 算法是用来比较两个虚拟 DOM 的，将前后两个虚拟 DOM 的差异应用到真实 DOM 上，减少 DOM 操作，提高性能。
 
 ## React
 

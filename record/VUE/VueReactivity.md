@@ -554,7 +554,7 @@ const proxy = new Proxy(obj, {
   },
   set(target, key, val) {
     console.log("set");
-    Reflect.set(target, key, val);
+    return Reflect.set(target, key, val);
   },
   deleteProperty(target, key) {
     console.log("deleteProperty");
