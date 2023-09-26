@@ -2,6 +2,40 @@
 
 ## 杂项
 
+### 从输入网址到页面展示发生了什么
+
+- DNS 解析：将域名解析为 IP 地址
+
+- TCP 连接：三次握手建立连接
+
+- 发送 HTTP 请求
+
+- 服务器处理请求并返回 HTTP 报文
+
+- 浏览器解析渲染页面
+
+- 断开连接：四次挥手断开连接
+
+### 常用的服务器状态码
+
+- 200：请求成功
+
+- 301：永久重定向
+
+- 302：临时重定向
+
+- 304：资源未修改
+
+- 400：请求错误
+
+- 401：未授权
+
+- 403：禁止访问
+
+- 404：资源未找到
+
+- 500：服务器错误
+
 ### 实现拖拽上传
 
 - 使用 input [type="file"] 实现
@@ -157,62 +191,190 @@ document.cookie = "name=hello; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
 
 ### 6. CSS 三栏布局及实现方式
 
+- 两栏布局：左定宽，右自适应
+
+  - flex
+
+    ```html
+    <div class="container">
+      <div class="left"></div>
+      <div class="right"></div>
+    </div>
+    ```
+
+    ```css
+    .container {
+      display: flex;
+    }
+
+    .left {
+      width: 200px;
+    }
+
+    .right {
+      flex: 1;
+    }
+    ```
+
+  - position
+
+    ```css
+    .left {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 200px;
+    }
+
+    .right {
+      margin-left: 200px;
+    }
+    ```
+
+  - float
+
+    ```css
+    .left {
+      float: left;
+      width: 200px;
+    }
+
+    .right {
+      margin-left: 200px;
+    }
+    ```
+
+  - table
+
+    ```css
+    .container {
+      display: table;
+    }
+
+    .left {
+      display: table-cell;
+      width: 200px;
+    }
+
+    .right {
+      display: table-cell;
+      width: calc(100% - 200px);
+    }
+    ```
+
 - 三栏布局：左右定宽，中间自适应
 
-```html
-<div class="container">
-  <div class="left"></div>
-  <div class="right"></div>
-  <div class="center"></div>
-</div>
-```
+  - flex
 
-```css
-.container {
-  display: flex;
-}
-.left {
-  width: 200px;
-}
-.right {
-  width: 200px;
-}
-.center {
-  flex: 1;
-}
-```
+    ```html
+    <div class="container">
+      <div class="left"></div>
+      <div class="center"></div>
+      <div class="right"></div>
+    </div>
+    ```
 
-### 双飞翼布局
+    ```css
+    .container {
+      display: flex;
+    }
 
-```html
-<div class="container">
-  <div class="center">
-    <div class="inner"></div>
-  </div>
-  <div class="left"></div>
-  <div class="right"></div>
-</div>
-```
+    .left {
+      width: 200px;
+    }
 
-```css
-.container {
-  display: flex;
-}
-.center {
-  flex: 1;
-}
-.left {
-  width: 200px;
-  margin-left: -100%;
-}
-.right {
-  width: 200px;
-  margin-left: -200px;
-}
-.inner {
-  margin: 0 200px;
-}
-```
+    .center {
+      flex: 1;
+    }
+
+    .right {
+      width: 200px;
+    }
+    ```
+
+  - float
+
+    ```html
+    <div class="container">
+      <div class="left"></div>
+      <div class="right"></div>
+      <div class="center"></div>
+    </div>
+    ```
+
+    ```css
+    .left {
+      float: left;
+      width: 200px;
+    }
+
+    .right {
+      float: right;
+      width: 200px;
+    }
+    .center {
+      margin: 0 200px;
+      /* 或者触发BFC */
+      /* overflow: hidden; */
+    }
+    ```
+
+  - table 布局
+
+    ```css
+    .container {
+      display: table;
+    }
+
+    .left {
+      display: table-cell;
+      width: 200px;
+    }
+
+    .center {
+      display: table-cell;
+    }
+
+    .right {
+      display: table-cell;
+      width: 200px;
+    }
+    ```
+
+  - 双飞翼布局
+
+    ```html
+    <div class="container">
+      <div class="center">
+        <div class="inner"></div>
+      </div>
+      <div class="left"></div>
+      <div class="right"></div>
+    </div>
+    ```
+
+    ```css
+    .center {
+      float: left;
+      width: 100%;
+    }
+
+    .inner {
+      margin: 0 200px;
+    }
+
+    .left {
+      float: left;
+      width: 200px;
+      margin-left: -100%;
+    }
+
+    .right {
+      float: left;
+      width: 200px;
+      margin-left: -200px;
+    }
+    ```
 
 ### 7. CSS 水平垂直居中
 
@@ -252,6 +414,41 @@ document.cookie = "name=hello; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
 }
 ```
 
+- 绝对定位 + calc
+
+```css
+.container {
+  position: relative;
+}
+
+.center {
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  top: calc(50% - 50px);
+  left: calc(50% - 50px);
+}
+```
+
+- 绝对定位 + margin:auto
+
+```css
+.container {
+  position: relative;
+}
+
+.center {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  width: 100px;
+  height: 100px;
+}
+```
+
 - flex 布局
 
 ```css
@@ -261,6 +458,69 @@ document.cookie = "name=hello; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
   align-items: center;
 }
 ```
+
+- grid 布局 + place-items
+
+```css
+.container {
+  display: grid;
+  place-items: center; /* 相当于设置了 align-items 和 justify-items */
+}
+```
+
+- grid 布局 + justify-self + align-self
+
+```css
+.container {
+  display: grid;
+}
+
+.center {
+  justify-self: center;
+  align-self: center;
+}
+```
+
+- grid 布局 + margin:auto
+
+```css
+.container {
+  display: grid;
+}
+
+.center {
+  margin: auto;
+  width: 100px;
+  height: 100px;
+}
+```
+
+- line-height 布局
+
+```css
+.container {
+  line-height: 200px;
+  text-align: center;
+}
+```
+
+- table 布局
+
+```css
+.container {
+  width: 100vw;
+  height: 100vh;
+  display: table-cell;
+  vertical-align: middle; /* 垂直居中 */
+  text-align: center;
+}
+```
+
+### 图片居中
+
+- background-position: center center
+
+- 和盒子处理方法类似
 
 ### 8. 实现加载动画
 
@@ -353,7 +613,7 @@ js 是 javascript 的简称，是一种脚本语言，ES6 是 ECMAScript6 的简
 
 ### ES6 新特性
 
-let、const；解构赋值；箭头函数；模板字符串；对象扩展；类；模块化；Promise；async/await；Set、Map；Symbol；Proxy；Reflect；Iterator；Generator；Decorator；
+let、const；解构赋值；箭头函数；模板字符串；对象扩展；类；模块化；Promise；async/await(ES7)；Set、Map；Symbol；Proxy；Reflect；Iterator；Generator；Decorator；
 
 ### let,const,var 的区别
 
@@ -422,6 +682,42 @@ let、const；解构赋值；箭头函数；模板字符串；对象扩展；类
 ### 数组中的最大值
 
 - `Math.max(...arr)`
+
+### 数组去重
+
+- 使用 Set
+
+  ```js
+  const arr = [1, 2, 3, 4, 5, 1, 2, 3, 4, 5];
+  const newArr = [...new Set(arr)];
+  ```
+
+- 使用 filter
+
+  ```js
+  const arr = [1, 2, 3, 4, 5, 1, 2, 3, 4, 5];
+  const newArr = arr.filter((item, index) => {
+    return arr.indexOf(item) === index;
+  });
+  ```
+
+- 对象数组去重
+
+  ```js
+  const arr = [
+    { id: 1, name: "张三" },
+    { id: 2, name: "李四" },
+    { id: 3, name: "王五" },
+    { id: 1, name: "张三" },
+    { id: 2, name: "李四" },
+    { id: 3, name: "王五" },
+  ];
+  const obj = {};
+  const newArr = arr.reduce((prev, cur) => {
+    obj[cur.id] ? "" : (obj[cur.id] = true && prev.push(cur));
+    return prev;
+  }, []);
+  ```
 
 ### 对象的迭代
 
@@ -494,6 +790,12 @@ function throttle(fn, delay) {
 - Vue2 的双向绑定原理是基于数据劫持和发布订阅模式的，通过 Object.defineProperty()来劫持数据对象中的各个属性的 setter，getter，在数据变动时发布消息给订阅者，触发相应的监听回调。
 
 - Vue3 的双向绑定原理是基于 Proxy 的，Proxy 是 ES6 中新增的功能，可以直接监听对象而非属性，可以直接监听数组的变化，返回一个新的对象，可以直接通过新的对象修改原来的对象。
+
+### Vue2 中检测数组变化的限制和解决方法
+
+- 由于在 vue2 中，没有使用 definPropoty 对数组进行劫持（defineProperty 会遍历数组的每一项，对每一项进行 defineProperty，这样性能开销很大），所以 vue2 中无法检测到数组的变化，vue2 中对数组的变化进行了重写，重写了数组的 7 个方法，这 7 个方法会触发数组的更新，这 7 个方法是：push、pop、shift、unshift、splice、sort、reverse。
+
+- vue3 中使用 Proxy 对数组进行劫持，可以直接监听数组的变化。
 
 ### 2. vue 生命周期
 

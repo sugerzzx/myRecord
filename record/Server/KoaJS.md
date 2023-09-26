@@ -93,7 +93,7 @@ import Router from "koa-router";
 import { Context } from "koa";
 
 // 创建路由实例
-const router: Router<any, {}> = new Router({ prefix: "/something" }); // prefix: '/user'表示该路由下的所有路由都会加上前缀/user
+const router: Router<any, {}> = new Router({ prefix: "/something" }); // prefix: '/user'表示该路由下的所有路由都会加上前缀/something
 
 // 注册路由
 router.get("/", async ctx:Context => {
@@ -168,6 +168,7 @@ app.listen(3000);
 class SomeController {
   async getSometing(ctx: Context) {
     const { name } = ctx.request.body; // 获取请求体中的 name 字段
+    // const { name } = ctx.params; // params通过ctx.params获取
     console.log(name);
     // ...
   }

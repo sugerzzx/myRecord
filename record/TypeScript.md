@@ -31,11 +31,28 @@ _TypeScript 是 JavaScript 的超集，它可以编译成纯 JavaScript。_
 npm install -g typescript
 ```
 
-### 5.2 编译
+### 5.2 初始化
+
+```shell
+tsc --init
+```
+
+````json
+{
+  "compilerOptions":{
+     "target": "es2016",  // 指定 ECMAScript 目标版本
+      "module": "commonjs", // 指定模块化类型
+      "rootDir": "./src", // 指定源文件目录
+      "outDir": "./dist", // 指定输出目录
+      "noEmitOnError": true, // 在发生错误时不生成编译文件
+  }
+}
+
+### 5.3 编译
 
 ```shell
 tsc hello.ts
-```
+````
 
 ## 6. JavaScript/TypeScript 的数据类型
 
