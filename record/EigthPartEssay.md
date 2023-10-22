@@ -524,7 +524,7 @@ document.cookie = "name=hello; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
 
 ### 8. 实现加载动画
 
-- 使用 transition 实现
+- 使用 animation 实现
 
 ```html
 <div class="container">
