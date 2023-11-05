@@ -53,7 +53,7 @@ _hello。_
 
 ---
 
-![pic of tom](/src/tomcat.jpg)
+![pic of tom](./src/tomcat.jpg)
 
 [我的域名](www.sugerzzx.top)
 
