@@ -31,9 +31,7 @@ adb shell 的常用功能包括：
 
 安装 Android SDK Command-line Tools 后，adb 工具将位于以下目录中：
 
-- Windows：`C:\Program Files (x86)\Android\android-sdk\platform-tools`
-- Mac：`/Applications/Android Studio.app/Contents/sdk/platform-tools`
-- Linux：`/opt/android-sdk/platform-tools`
+- Windows：`*\Android\android-sdk\platform-tools`
 
 要使用 adb 工具，需要将 Android SDK Command-line Tools 所在目录添加到系统环境变量中。
 
@@ -180,4 +178,10 @@ adb shell pm clear <package-name>
 
 ```bash
 adb shell test -d <directory>
+```
+
+使用以下的命令在 adb shell 中检查文件夹是否存在，如果不存在则创建：
+
+```batch
+adb shell "[ -d /path/to/your/folder ] || mkdir -p /path/to/your/folder"
 ```

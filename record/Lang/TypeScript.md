@@ -3,60 +3,49 @@
 [官方文档](https://www.typescriptlang.org/zh/docs/handbook/typescript-in-5-minutes.html)
 [TypeScript 入门教程](https://ts.xcatliu.com/)
 
-## 1. TypeScript 是什么
+## 基础
 
-_TypeScript 是 JavaScript 的超集，它可以编译成纯 JavaScript。_
+### 1. TypeScript 是什么
 
-## 2. TypeScript 的优势
-
-- TypeScript 增加了代码的可读性和可维护性
-- TypeScript 非常包容
-- TypeScript 拥有活跃的社区
-- TypeScript 拥抱了 ES6 规范
-
-## 3. TypeScript 的缺点
-
-- 需要编译
-- 可能和一些库结合的不是很完美
-
-## 4. TypeScript 的应用场景
+- TypeScript 是 JavaScript 的超集，它可以编译成纯 JavaScript。
 
 - TypeScript 可以在编译时进行代码检查，它能够在编译阶段（而不是程序运行时）就发现大部分错误，这对于开发大型应用时能够提供效率。
 
-## 5. TypeScript 的安装和编译
+### 2. TypeScript 的安装和编译
 
-### 5.1 安装
+#### 2.1 安装
 
 ```shell
 npm install -g typescript
 ```
 
-### 5.2 初始化
+#### 2.2 初始化
 
 ```shell
 tsc --init
 ```
 
-````json
+```json
 {
-  "compilerOptions":{
-     "target": "es2016",  // 指定 ECMAScript 目标版本
-      "module": "commonjs", // 指定模块化类型
-      "rootDir": "./src", // 指定源文件目录
-      "outDir": "./dist", // 指定输出目录
-      "noEmitOnError": true, // 在发生错误时不生成编译文件
+  "compilerOptions": {
+    "target": "es2016", // 指定 ECMAScript 目标版本
+    "module": "commonjs", // 指定模块化类型
+    "rootDir": "./src", // 指定源文件目录
+    "outDir": "./dist", // 指定输出目录
+    "noEmitOnError": true // 在发生错误时不生成编译文件
   }
 }
+```
 
-### 5.3 编译
+#### 2.3 编译
 
 ```shell
 tsc hello.ts
-````
+```
 
-## 6. JavaScript/TypeScript 的数据类型
+## TypeScript 的数据类型
 
-### 6.1 JavaScript 的数据类型
+### 1. JavaScript 的数据类型
 
 - 七种原始数据类型：
 
@@ -72,7 +61,7 @@ tsc hello.ts
 
   - Object
 
-### 6.2 TypeScript 的数据类型
+### 2. TypeScript 的新增类型
 
 除了 JavaScript 的数据类型外，TypeScript 还提供了以下数据类型：
 
@@ -85,27 +74,29 @@ tsc hello.ts
 
 _要注意避免使用过多的 any 类型，any 类型会导致 TypeScript 失去静态类型检查的意义，即变成了'anyscript'。_
 
-### 6.3 下面例举了 TypeScript 中的常用数据类型
+### 3. TypeScript 中的常用数据类型
 
-#### 6.3.1 布尔类型（boolean）
+#### 3.1 布尔类型（boolean）
 
 ```typescript
 let flag: boolean = true;
 ```
 
-#### 6.3.2 数字类型（number）
+#### 3.2 数字类型（number）
 
 ```typescript
 let num: number = 123;
 ```
 
-#### 6.3.3 字符串类型（string）
+#### 3.3 字符串类型（string）
 
 ```typescript
 let str: string = "this is ts";
 ```
 
-#### 6.3.4 数组类型（array）
+> 大写的`String`, `Number`, 和 `Boolean`是合法的，但它们指的是一些特殊的内置类型，在您的代码中很少会出现(比如`String`：表示 JavaScript 中的 `String` 对象类型，它拥有一些额外的方法和属性)。请始终使用小写的 string、number 或 boolean 来表示类型。
+
+#### 3.4 数组类型（array）
 
 ```typescript
 // 第一种定义数组的方式
@@ -197,9 +188,9 @@ a = (() => {
 })();
 ```
 
-## 7. TypeScript 中的函数
+### 7. TypeScript 中的函数
 
-### 7.1 函数的定义
+#### 7.1 函数的定义
 
 ```typescript
 // 函数声明法

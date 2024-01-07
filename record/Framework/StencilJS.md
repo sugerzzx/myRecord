@@ -47,3 +47,31 @@ Web 组件的优点包括：
 - **维护性**：Web 组件的独立性使其更容易维护和测试。
 
 然而，Web 组件也面临一些挑战，包括浏览器兼容性问题和复杂的开发流程。为了更轻松地创建和使用 Web 组件，许多现代前端框架和库提供了对 Web 组件的支持和封装，使其更易于集成到应用程序中。
+
+### Properties
+
+Props 是自定义的属性(attributes)/参数(parameters)，他们使开发者可以向组件中传递数据用于渲染(render)或者其他用途。
+
+#### Prop 装饰器(@Prop())
+
+在组件中使用 Stenci 装饰器`@Prop()`来声明 props
+
+```ts
+// First, we import Prop from '@stencil/core'
+import { Component, Prop, h } from "@stencil/core";
+
+@Component({
+  tag: "todo-list",
+})
+export class TodoList {
+  // Second, we decorate a class member with @Prop()
+  @Prop() name: string;
+
+  render() {
+    // Within the component's class, its props are
+    // accessed via `this`. This allows us to render
+    // the value passed to `todo-list`
+    return <div>To-Do List Name: {this.name}</div>;
+  }
+}
+```

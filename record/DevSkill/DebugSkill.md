@@ -4,7 +4,7 @@
 
 ### 命令面板
 
-在开发者工具中，可以通过快捷键`Ctrl+Shift+P`或`Command+Shift+P`打开命令面板，然后输入关键字来执行相应的命令。例如，输入`show`可以显示所有可用的命令，输入`clear`可以清除控制台中的所有内容。
+在开发者工具中，可以通过快捷键`Ctrl+Shift+P`或`Command+Shift+P`打开命令面板，然后输入关键字来执行相应的命令。`Ctrl+P`或`Command+P`可以快速打开文件。
 
 ### document.designMode
 
