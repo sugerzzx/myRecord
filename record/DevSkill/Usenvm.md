@@ -26,6 +26,8 @@ nvm use 16.0.0
 nvm uninstall 16.0.0
 ```
 
+切换 node 版本并不会导致 npm 源的变化
+
 # Nrm
 
 ## 介绍
