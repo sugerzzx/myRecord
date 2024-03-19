@@ -1,5 +1,5 @@
 # LearningRecord
 
-#### 介绍
+## intro
 
-记录学过的东西，ai 协助补全，如有错误，欢迎指正
+This is a record of my learning process.
