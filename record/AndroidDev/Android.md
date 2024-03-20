@@ -156,3 +156,36 @@ public class MyActivity extends Activity {
 | 调用者   | JVM           | Android 系统              |
 
 在 Android 开发中，**onCreate()** 方法是活动的生命周期方法之一，它在活动创建时被调用。**onCreate()** 方法通常用于初始化活动的布局、视图、数据等。
+
+#### Intent
+
+在 Android 中，`Intent` 类是一个用于在不同组件之间进行通信的重要类。它可以用于启动活动（Activity）、服务（Service）、发送广播（Broadcast）、启动外部应用等。以下是关于 `Intent` 类的一些重要概念和功能：
+
+1. **Intent 的作用**：
+
+   - `Intent` 用于在应用程序内或者不同的应用程序之间传递消息和执行操作。
+   - 它允许开发者请求系统执行特定的操作，或者请求系统将数据传递给其他组件。
+
+2. **Intent 的类型**：
+
+   - 显式 Intent：指定了要启动的目标组件的类名，用于在同一应用程序内的组件之间进行通信。
+   - 隐式 Intent：没有明确指定目标组件的类名，而是根据给定的动作、类别和数据等信息由系统来确定目标组件。用于在不同应用程序之间进行通信。
+
+3. **Intent 的构造**：
+
+   - 通过指定动作（Action）、数据（Data）、类别（Category）等信息来构造 Intent 对象。
+   - 可以使用 `putExtra()` 方法向 Intent 中添加额外的数据。
+
+4. **Intent 的使用场景**：
+
+   - 启动活动：通过 `startActivity()` 方法启动新的活动。
+   - 启动服务：通过 `startService()` 或 `bindService()` 方法启动服务。
+   - 发送广播：通过 `sendBroadcast()` 或 `sendOrderedBroadcast()` 方法发送广播。
+   - 启动外部应用：通过隐式 Intent 启动其他应用程序中的组件。
+   - 传递数据：可以通过 Intent 在不同组件之间传递数据。
+
+5. **Intent 过滤器**：
+   - 用于在清单文件中声明组件（如活动、服务、接收器等）可以响应的 Intent 类型。
+   - 通过 `<intent-filter>` 元素指定组件可以处理的动作、类别、数据等信息。
+
+使用 `Intent` 类可以实现 Android 应用程序中各个组件之间的交互，包括启动活动、服务、发送广播等操作，从而实现应用程序的各种功能。
