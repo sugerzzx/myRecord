@@ -221,3 +221,63 @@ public class MyActivity extends Activity {
    - 绑定服务：通过 `bindService()` 方法绑定服务，使得其他组件可以与服务进行交互，服务会随着绑定组件的生命周期而启动或停止。
 
 服务是 Android 开发中一个重要的组件，它使得开发者可以在后台执行长时间运行的任务，同时保持应用程序的响应性和用户体验。
+
+## BroadcastReceiver
+
+Broadcast Receiver（广播接收器）是 Android 中的一个组件，用于接收和响应系统广播消息或者应用程序内部广播消息。它可以让应用程序在特定事件发生时得到通知，并执行相应的操作。以下是关于 Broadcast Receiver 组件的一些重要概念和用途：
+
+1. **接收系统广播**：
+
+   - Broadcast Receiver 可以注册接收系统发出的广播消息，如手机开机完成、电池电量改变、网络连接状态改变等。
+   - 通过注册感兴趣的广播消息，应用程序可以在特定事件发生时得到通知并执行相应的操作。
+
+2. **接收应用程序内部广播**：
+
+   - 应用程序内部的组件（如活动、服务等）可以发送自定义的广播消息，而 Broadcast Receiver 可以接收并响应这些广播消息。
+   - 这使得应用程序内不同组件之间可以进行通信和协作。
+
+3. **注册方式**：
+
+   - 在 AndroidManifest.xml 文件中静态注册：通过 `<receiver>` 元素在清单文件中声明广播接收器，并指定需要接收的广播消息类型。
+   - 在代码中动态注册：通过 `registerReceiver()` 方法在代码中动态注册广播接收器，并在不需要接收广播时使用 `unregisterReceiver()` 方法取消注册。
+
+4. **处理广播消息**：
+
+   - 当广播接收器接收到广播消息时，系统会调用其 `onReceive()` 方法，开发者可以在该方法中编写处理接收到广播消息的逻辑。
+   - 在 `onReceive()` 方法中执行的操作通常应该尽量简短，以免阻塞主线程。
+
+5. **广播的有序性**：
+   - 广播可以是有序的或者无序的，有序广播允许多个接收器按照优先级顺序接收和处理广播消息。
+   - 可以通过设置 `android:priority` 属性或者使用 `setPriority()` 方法来指定广播接收器的优先级。
+
+Broadcast Receiver 是 Android 开发中一个重要的组件，它可以让应用程序接收系统广播消息和应用程序内部广播消息，从而实现对特定事件的监听和响应。
+
+## Content Provider
+
+Content Provider（内容提供器）是 Android 中的一个组件，用于向其他应用程序提供访问本应用程序数据的接口。它提供了一种统一的方式来管理应用程序中的结构化数据，并且可以让其他应用程序通过 URI（Uniform Resource Identifier）来访问和操作这些数据。以下是关于 Content Provider 组件的一些重要概念和用途：
+
+1. **数据共享**：
+
+   - Content Provider 允许应用程序向其他应用程序共享数据，包括但不限于数据库中的数据、文件系统中的文件、甚至是内存中的数据。
+   - 其他应用程序可以通过 Content Resolver（内容解析器）来访问和操作 Content Provider 中的数据。
+
+2. **URI（Uniform Resource Identifier）**：
+
+   - Content Provider 使用 URI 来标识要访问的数据。URI 由以下几部分组成：authority、path、ID 等。
+   - 例如，content://authority/path/id 表示访问某个特定数据的 URI。
+
+3. **CRUD 操作**：
+
+   - Content Provider 支持标准的 CRUD（创建、读取、更新、删除）操作，以便其他应用程序可以对数据进行增加、查询、更新和删除等操作。
+   - 通过 URI 来指定操作的数据，可以对数据进行精确的操作。
+
+4. **权限控制**：
+
+   - Content Provider 可以通过权限控制来限制其他应用程序对数据的访问权限，以保护数据的安全性和隐私性。
+   - 开发者可以在清单文件中声明 Content Provider 的权限，并在需要时通过权限验证来控制对数据的访问。
+
+5. **内置 Content Provider**：
+   - Android 系统提供了一些内置的 Content Provider，如联系人数据（Contacts Provider）、媒体库数据（MediaStore Provider）等。
+   - 应用程序也可以创建自己的 Content Provider 来管理自己的数据，并且可以选择是否共享给其他应用程序。
+
+Content Provider 是 Android 开发中一个重要的组件，它提供了一种统一的接口来管理和共享应用程序中的数据，从而实现了不同应用程序之间的数据交互和共享。
