@@ -749,3 +749,290 @@ Runnable runnable = new Runnable() {
 ```
 
 匿名类提供了一种简洁而灵活的方式来创建临时的、一次性的对象，并且可以直接在代码中定义和使用，而无需显式地定义一个新的类。通过匿名类，可以更加方便地实现接口的单一方法或者对现有类进行简单的扩展和重写。
+
+## 常用类
+
+### Object 类
+
+在 Java 中，`Object` 类是所有类的根类，即所有其他类都是直接或间接地继承自 `Object` 类。`Object` 类位于 `java.lang` 包中，因此在 Java 中无需显式导入就可以使用它。`Object` 类提供了一些通用的方法，可以被所有对象调用。
+
+以下是 `Object` 类的一些常用方法：
+
+1. **`toString()` 方法**：
+   - `toString()` 方法返回对象的字符串表示形式。默认情况下，`toString()` 方法返回的是对象的类名，后跟 "@" 符号和对象的哈希码。
+
+```java
+public String toString() {
+    return getClass().getName() + "@" + Integer.toHexString(hashCode());
+}
+```
+
+2. **`equals(Object obj)` 方法**：
+   - `equals(Object obj)` 方法用于比较两个对象是否相等。默认情况下，`equals()` 方法比较的是对象的引用是否相等（即内存地址）。
+   - 子类可以重写 `equals()` 方法以实现自定义的相等性比较逻辑。
+
+```java
+public boolean equals(Object obj) {
+    return (this == obj);
+}
+```
+
+3. **`hashCode()` 方法**：
+   - `hashCode()` 方法返回对象的哈希码值。哈希码用于在哈希表等数据结构中快速定位对象。
+   - 如果重写了 `equals()` 方法，通常也需要重写 `hashCode()` 方法，以保证对象相等时哈希码相等。
+
+```java
+public int hashCode() {
+    return super.hashCode();
+}
+```
+
+4. **`getClass()` 方法**：
+   - `getClass()` 方法返回对象的运行时类（Runtime Class）。
+   - 运行时类是在运行时确定的对象所属的类。
+
+```java
+public final Class<?> getClass() {
+    return Class.forName();
+}
+```
+
+5. **`clone()` 方法**：
+   - `clone()` 方法用于创建并返回当前对象的一个副本（浅拷贝）。
+   - 如果需要实现深拷贝，可以重写 `clone()` 方法，并在其中复制对象的所有成员变量。
+
+```java
+protected native Object clone() throws CloneNotSupportedException;
+```
+
+`Object` 类提供了一些基本的方法，是所有类的共同基础。在 Java 中，所有的类都继承自 `Object` 类，因此可以使用 `Object` 类中定义的这些通用方法。在实际的编程中，虽然很少直接使用 `Object` 类，但是它为所有类提供了一些基本的功能支持，是 Java 语言中非常重要的一部分。
+
+### 数组
+
+在 Java 中，数组是一种用来存储相同类型数据元素的数据结构，它是一种线性数据结构，具有固定大小。Java 中的数组具有以下特点：
+
+1. **声明数组**：
+   - 在 Java 中声明数组需要指定数组的类型和数组的名称，并可以选择指定数组的大小。
+   - 可以使用以下两种方式声明数组：
+     - `数据类型[] 数组名称;`
+     - `数据类型 数组名称[];`
+
+```java
+int[] numbers; // 声明一个整型数组
+double[] scores = new double[5]; // 声明一个包含 5 个 double 类型元素的数组
+```
+
+2. **初始化数组**：
+   - 在声明数组的同时，可以选择对数组进行初始化，也可以在后续的代码中对数组进行初始化。
+   - 可以使用大括号 `{}` 来指定数组的初始化值。
+
+```java
+int[] numbers = {1, 2, 3, 4, 5}; // 初始化一个整型数组
+String[] names = new String[3]; // 初始化一个包含 3 个字符串类型元素的数组
+names[0] = "Alice";
+names[1] = "Bob";
+names[2] = "Charlie";
+```
+
+3. **访问数组元素**：
+   - 可以使用下标（索引）来访问数组中的元素，数组的下标从 0 开始，最大值为数组长度减一。
+   - 可以使用 `数组名称[下标]` 的方式来访问数组元素。
+
+```java
+int[] numbers = {1, 2, 3, 4, 5};
+System.out.println(numbers[0]); // 输出数组的第一个元素
+```
+
+4. **数组长度**：
+   - 可以使用 `数组名称.length` 来获取数组的长度，即数组中元素的个数。
+   - 数组的长度是固定的，一旦创建就不能改变。
+
+```java
+int[] numbers = {1, 2, 3, 4, 5};
+System.out.println(numbers.length); // 输出数组的长度
+```
+
+5. **多维数组**：
+   - Java 支持多维数组，即数组中的元素可以是数组，从而形成多维的数据结构。
+   - 可以使用逗号分隔的多个方括号来声明和访问多维数组。
+
+```java
+int[][] matrix = new int[3][3]; // 声明一个二维整型数组
+matrix[0][0] = 1;
+```
+
+数组是 Java 中非常常用的数据结构，它提供了一种方便的方式来存储和操作一组相同类型的数据。通过数组，可以更加高效地管理大量的数据，并且可以使用下标来快速访问数组中的元素。
+
+### Sting 类
+
+在 Java 中，`String` 类是一个用于表示字符串的类，它属于 `java.lang` 包。`String` 类是不可变的，即一旦创建了 `String` 对象，它的值就不能被修改。Java 中的字符串是一个对象，而不是基本数据类型。
+
+以下是 `String` 类的一些重要特点和常用方法：
+
+1. **创建字符串对象**：
+   - 可以使用字符串字面值直接创建字符串对象。
+   - 也可以使用 `new` 关键字来创建字符串对象。
+
+```java
+String str1 = "Hello, World!"; // 使用字符串字面值创建字符串对象
+String str2 = new String("Hello, World!"); // 使用 new 关键字创建字符串对象
+```
+
+2. **字符串的不可变性**：
+   - `String` 对象一旦创建后，其值就不能被修改。
+   - 对字符串进行操作（如连接、截取、替换等），实际上是返回一个新的 `String` 对象，原来的字符串对象保持不变。
+
+```java
+String str = "Hello";
+str += " World"; // 连接字符串，创建了一个新的字符串对象
+```
+
+3. **字符串的常用方法**：
+   - `length()`：返回字符串的长度。
+   - `charAt(int index)`：返回指定索引处的字符。
+   - `substring(int beginIndex, int endIndex)`：返回指定范围内的子字符串。
+   - `indexOf(String str)`：返回指定子字符串在原字符串中第一次出现的位置。
+   - `equals(Object obj)`：比较两个字符串是否相等。
+   - `toLowerCase()` / `toUpperCase()`：将字符串转换为小写 / 大写。
+   - `split(String regex)`：根据给定的正则表达式分割字符串。
+
+```java
+String str = "Hello, World!";
+System.out.println(str.length()); // 输出字符串的长度
+System.out.println(str.charAt(0)); // 输出字符串的第一个字符
+System.out.println(str.substring(0, 5)); // 输出子字符串 "Hello"
+System.out.println(str.indexOf("World")); // 输出子字符串 "World" 在原字符串中的位置
+```
+
+4. **字符串的不可变性带来的优势**：
+   - 字符串常量池：Java 中的字符串常量被保存在一个特殊的内存区域中，称为字符串常量池（String Pool）。相同的字符串常量在常量池中只会存在一份副本，这样可以节省内存空间。
+   - 线程安全：由于字符串是不可变的，多个线程可以同时访问和操作字符串而不会发生冲突。
+
+`String` 类在 Java 中是非常重要的，它提供了丰富的方法来操作字符串，并且由于其不可变性，使得字符串在多线程环境中更加安全，也更容易进行字符串常量的共享和优化。
+
+### HashSet 类
+
+在 Java 中，`HashSet` 是 `java.util` 包下的一个集合类，它实现了 `Set` 接口，用于存储一组唯一的元素。`HashSet` 基于哈希表实现，具有以下特点：
+
+1. **不允许重复元素**：
+   - `HashSet` 不允许存储重复的元素，即集合中的元素是唯一的。
+   - 当尝试将重复的元素添加到 `HashSet` 中时，`HashSet` 会自动忽略重复元素。
+
+```java
+HashSet<String> set = new HashSet<>();
+set.add("apple");
+set.add("banana");
+set.add("apple"); // 尝试添加重复元素，被自动忽略
+System.out.println(set); // 输出: [banana, apple]
+```
+
+2. **无序集合**：
+   - `HashSet` 中的元素是无序的，即不保证元素的顺序和插入的顺序一致。
+   - 遍历 `HashSet` 得到的元素顺序可能会发生变化。
+
+```java
+HashSet<Integer> set = new HashSet<>();
+set.add(2);
+set.add(1);
+set.add(3);
+System.out.println(set); // 输出: [1, 2, 3] 或者 [3, 1, 2] 等不同顺序
+```
+
+3. **基于哈希表实现**：
+   - `HashSet` 内部基于哈希表实现，因此插入、删除、查找元素的时间复杂度是 O(1)。
+   - 在使用自定义类作为元素时，需要正确实现 `hashCode()` 和 `equals()` 方法，以保证元素的唯一性。
+
+```java
+class Person {
+    String name;
+    int age;
+
+    // 构造方法、其他方法
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, age);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Person person = (Person) obj;
+        return age == person.age && Objects.equals(name, person.name);
+    }
+}
+```
+
+4. **性能优化**：
+   - 由于 `HashSet` 内部是基于哈希表实现的，因此在大部分情况下，`HashSet` 具有较好的性能表现。
+   - 在需要存储大量数据并且要求元素唯一性的情况下，`HashSet` 是一个常用的选择。
+
+`HashSet` 在 Java 中是一个常用的集合类，用于存储一组唯一的元素。它提供了高效的插入、删除、查找操作，并且具有良好的性能和内存利用率。在使用自定义类作为元素时，需要注意正确实现 `hashCode()` 和 `equals()` 方法，以确保元素的唯一性和正确性。
+
+### HashMap 类
+
+在 Java 中，`HashMap` 是 `java.util` 包下的一个集合类，它实现了 `Map` 接口，用于存储键值对（key-value pair）。`HashMap` 基于哈希表实现，具有以下特点：
+
+1. **键值对存储**：
+   - `HashMap` 存储的是一组键值对，每个键值对包含一个键和一个值。
+   - 键和值都可以是任意类型的对象。
+
+```java
+HashMap<String, Integer> map = new HashMap<>();
+map.put("apple", 10);
+map.put("banana", 20);
+```
+
+2. **键的唯一性**：
+   - `HashMap` 中的键是唯一的，即同一个键只能对应一个值。
+   - 如果尝试使用相同的键存储新值，则新值会覆盖原有键对应的值。
+
+```java
+HashMap<String, Integer> map = new HashMap<>();
+map.put("apple", 10);
+map.put("apple", 20); // 键 "apple" 对应的值被覆盖为 20
+```
+
+3. **无序集合**：
+   - `HashMap` 中的键值对是无序存储的，即不保证键值对的顺序和插入的顺序一致。
+   - 遍历 `HashMap` 得到的键值对顺序可能会发生变化。
+
+```java
+HashMap<String, Integer> map = new HashMap<>();
+map.put("apple", 10);
+map.put("banana", 20);
+System.out.println(map); // 输出的顺序可能为 {banana=20, apple=10} 或者 {apple=10, banana=20} 等不同顺序
+```
+
+4. **基于哈希表实现**：
+   - `HashMap` 内部基于哈希表实现，因此插入、删除、查找键值对的时间复杂度是 O(1)。
+   - 在使用自定义类作为键时，需要正确实现 `hashCode()` 和 `equals()` 方法，以保证键的唯一性。
+
+```java
+class Person {
+    String name;
+    int age;
+
+    // 构造方法、其他方法
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, age);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Person person = (Person) obj;
+        return age == person.age && Objects.equals(name, person.name);
+    }
+}
+```
+
+5. **性能优化**：
+   - 由于 `HashMap` 内部是基于哈希表实现的，因此在大部分情况下，`HashMap` 具有较好的性能表现。
+   - 在需要高效存储和查找键值对的情况下，`HashMap` 是一个常用的选择。
+
+`HashMap` 在 Java 中是一个常用的集合类，用于存储一组键值对。它提供了高效的插入、删除、查找操作，并且具有良好的性能和内存利用率。在使用自定义类作为键时，需要注意正确实现 `hashCode()` 和 `equals()` 方法，以确保键的唯一性和正确性。
