@@ -377,3 +377,169 @@ Android 中的动画系统提供了丰富的功能和灵活的接口，可以实
    - 补间动画适用于简单的动画效果，但不支持动态修改动画参数，如改变目标位置、旋转中心等。
 
 补间动画是 Android 开发中常用的动画实现方式之一，它简单、直观，适用于简单的动画效果，如视图的平移、旋转、缩放和透明度变化等。通过合理设置动画参数和监听器，可以实现各种各样的补间动画效果，为应用程序增添动感和活力。
+
+### 属性动画
+
+属性动画（Property Animation）是 Android 中一种强大的动画方式，可以对任何对象的任何属性进行动画处理。相比于补间动画，属性动画具有更加灵活的控制能力和更多的动画效果，而且支持动态修改属性值。以下是关于属性动画的详细介绍及其用法：
+
+### 1. 属性动画基本概念：
+
+- **对象属性**：属性动画可以操作任何对象的属性，包括视图（View）的位置、大小、透明度等，以及自定义对象的属性。
+- **持续时间**：动画的持续时间决定了动画执行的时间长度，可以在动画设置中指定。
+
+- **加速度插值器**：属性动画支持自定义动画的速度变化曲线，通过设置插值器（Interpolator）可以控制动画的加速度、减速度等。
+
+- **监听器**：可以设置动画监听器来监听动画的各个阶段，如动画开始、结束、重复等，以执行相应的操作。
+
+### 2. 属性动画的用法：
+
+#### 2.1 在 XML 中定义属性动画：
+
+```xml
+<!-- 在 res/animator 目录下创建属性动画资源文件 -->
+<!-- 示例：scale_anim.xml -->
+<objectAnimator
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:propertyName="scaleX"
+    android:valueFrom="1.0"
+    android:valueTo="2.0"
+    android:duration="1000" />
+```
+
+#### 2.2 在代码中加载和应用属性动画：
+
+```java
+// 加载属性动画资源
+Animator animator = AnimatorInflater.loadAnimator(context, R.animator.scale_anim);
+
+// 设置目标对象
+animator.setTarget(view);
+
+// 启动动画
+animator.start();
+```
+
+#### 2.3 使用属性动画类自定义动画：
+
+```java
+// 创建属性动画对象，指定目标对象、属性名称、起始值和结束值
+ObjectAnimator animator = ObjectAnimator.ofFloat(view, "translationX", 0f, 100f);
+
+// 设置动画持续时间
+animator.setDuration(1000);
+
+// 设置加速度插值器
+animator.setInterpolator(new AccelerateDecelerateInterpolator());
+
+// 设置动画监听器
+animator.addListener(new AnimatorListenerAdapter() {
+    @Override
+    public void onAnimationEnd(Animator animation) {
+        // 动画结束时执行的操作
+    }
+});
+
+// 启动动画
+animator.start();
+```
+
+### 3. 属性动画 API
+
+1. **ObjectAnimator**：用于对任何对象的任何属性进行动画处理。通过指定目标对象、属性名称、起始值和结束值来创建动画对象。
+
+2. **ValueAnimator**：用于对数值属性进行动画处理。可以设置起始值和结束值，并通过监听器获取动画过程中的每个属性值变化。
+
+3. **AnimatorSet**：用于组合多个属性动画，实现复杂的动画效果。可以将多个 Animator 对象按照指定的顺序或同时播放，实现串行或并行动画效果。
+
+这些属性动画类都位于 `android.animation` 包中，提供了丰富的功能和灵活的接口，可以实现各种各样的动画效果。
+
+#### 3.1 ValueAnimator
+
+ValueAnimator 是 Android 中用于执行数值属性动画的类之一。与 ObjectAnimator 不同，ValueAnimator 主要用于对数值属性进行动画处理，而不是直接操作对象的属性。ValueAnimator 在动画执行过程中会生成一系列数值，并通过监听器将这些数值提供给开发者，从而实现对属性值的动态修改。以下是关于 ValueAnimator 的详细介绍：
+
+1. **数值属性动画**：
+
+   - ValueAnimator 用于对数值属性进行动画处理，如颜色值的变化、透明度的变化、旋转角度的变化等。
+   - ValueAnimator 并不直接操作对象的属性，而是通过生成一系列数值，并将这些数值提供给开发者，开发者可以根据需要将这些数值应用到目标对象的属性上。
+
+2. **创建 ValueAnimator**：
+
+   - 使用静态的 `ofXXX()` 方法创建 ValueAnimator 对象，如 `ValueAnimator.ofFloat()`、`ValueAnimator.ofInt()` 等。
+   - 在创建时需要指定起始值和结束值等参数，ValueAnimator 将会在这两个值之间生成一系列数值。
+
+3. **监听数值变化**：
+
+   - 可以设置监听器来监听动画过程中数值的变化，通过监听器可以获取每个数值，并根据需要将其应用到目标对象的属性上。
+   - 使用 `addUpdateListener()` 方法设置监听器，监听器的回调方法 `onAnimationUpdate()` 将会在每个数值更新时被调用。
+
+4. **动画持续时间和插值器**：
+
+   - 可以设置动画的持续时间和插值器，控制动画的执行时长和速度变化曲线。
+
+5. **启动动画**：
+
+   - 使用 `start()` 方法启动动画，ValueAnimator 将会在动画执行过程中生成一系列数值，并通过监听器提供给开发者。
+
+6. **示例代码**：
+
+   - 创建一个从 0 到 100 的数值属性动画：
+
+   ```java
+   ValueAnimator animator = ValueAnimator.ofInt(0, 100);
+   animator.setDuration(1000); // 设置动画持续时间为 1 秒
+   animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+       @Override
+       public void onAnimationUpdate(ValueAnimator animation) {
+           int currentValue = (int) animation.getAnimatedValue();
+           // 根据数值更新目标对象的属性
+           // 示例：view.setAlpha(currentValue / 100f);
+       }
+   });
+   animator.start(); // 启动动画
+   ```
+
+ValueAnimator 是 Android 开发中常用的数值属性动画类之一，它可以生成一系列数值并提供给开发者，开发者可以根据需要将这些数值应用到目标对象的属性上，具有灵活性强、自定义性强的特点，适用于各种需要对数值属性进行动画处理的场景。
+
+#### 3.2 ObjectAnimator
+
+ObjectAnimator 是 Android 中用于执行属性动画的类之一，它可以对任何对象的任何属性进行动画处理。ObjectAnimator 类可以实现对指定对象的属性值进行平滑过渡，从而创建各种动画效果。以下是关于 ObjectAnimator 的详细介绍：
+
+1. **属性动画**：
+
+   - ObjectAnimator 是属性动画框架的一部分，与补间动画不同，属性动画可以在动画执行过程中实时修改目标对象的属性值，而不仅仅是改变外观。
+
+2. **对象属性**：
+
+   - ObjectAnimator 可以操作任何对象的任何属性，包括 View 的位置、大小、透明度等属性，也可以是自定义对象的属性。
+
+3. **创建 ObjectAnimator**：
+
+   - 使用静态的 `ofXXX()` 方法创建 ObjectAnimator 对象，例如 `ObjectAnimator.ofFloat()`、`ObjectAnimator.ofInt()`、`ObjectAnimator.ofArgb()` 等。
+   - 在创建时需要指定目标对象、属性名称、起始值和结束值等参数。
+
+4. **设置动画参数**：
+
+   - 设置动画持续时间、插值器、重复次数、重复模式等参数，以控制动画的执行方式和效果。
+
+5. **启动动画**：
+
+   - 使用 `start()` 方法启动动画，ObjectAnimator 将会根据指定的属性值变化逐步更新目标对象的属性值，从而实现平滑的动画效果。
+
+6. **示例代码**：
+
+   - 创建一个从当前位置平移的 ObjectAnimator：
+
+   ```java
+   ObjectAnimator animator = ObjectAnimator.ofFloat(view, "translationX", 0f, 100f);
+   animator.setDuration(1000); // 设置动画持续时间为 1 秒
+   animator.start(); // 启动动画
+   ```
+
+7. **监听动画事件**：
+
+   - 可以设置动画监听器来监听动画的各个阶段，如动画开始、结束、重复等，以执行相应的操作。
+
+8. **属性动态修改**：
+   - ObjectAnimator 允许在动画执行过程中动态修改属性的起始值和结束值，从而实现更灵活的动画效果。
+
+ObjectAnimator 是 Android 开发中常用的属性动画类之一，它可以实现对任何对象的任何属性进行动画处理，具有灵活性强、效果丰富的特点，适用于各种复杂的动画效果实现。
