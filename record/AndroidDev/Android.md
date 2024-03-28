@@ -172,24 +172,6 @@ public class MyActivity extends Activity {
 
 在上述示例中，我们重写了 `Activity` 的生命周期方法，用于处理活动的状态和行为。这些方法可以帮助你管理活动的生命周期，以便在不同的阶段执行不同的操作。
 
-#### onCreate 方法和 main 方法的对比
-
-- **main()** 方法是 Java 程序的入口点，由 Java 虚拟机 (JVM) 调用。**onCreate()** 方法是 Android 活动的入口点，由 Android 系统调用。
-- **main()** 方法是静态方法，不需要创建对象即可调用。**onCreate()** 方法是实例方法，需要创建活动对象才能调用。
-- **main()** 方法的参数是字符串数组，用于接收命令行参数。**onCreate()** 方法的参数是 Bundle 对象，用于保存活动的状态。
-
-以下是 **main()** 方法和 **onCreate()** 方法的对比表：
-
-| 特性     | main()        | onCreate()                |
-| -------- | ------------- | ------------------------- |
-| 位置     | Java 程序     | Android 活动              |
-| 访问权限 | public        | public                    |
-| 返回值   | void          | void                      |
-| 参数     | String[] args | Bundle savedInstanceState |
-| 调用者   | JVM           | Android 系统              |
-
-在 Android 开发中，**onCreate()** 方法是活动的生命周期方法之一，它在活动创建时被调用。**onCreate()** 方法通常用于初始化活动的布局、视图、数据等。
-
 ## Service
 
 在 Android 中，Service（服务）是一种用于执行长时间运行操作而不需要用户界面的组件。Service 可以在后台运行，并且即使用户切换到其他应用程序或者退出应用程序，Service 仍然可以继续运行。以下是关于 Service 组件的一些重要概念和用途：
