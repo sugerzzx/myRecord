@@ -10,17 +10,17 @@
   "Typescript React Function Component": {
     "prefix": "fc",
     "body": [
-      "import { FC } from 'react'",
+      "import { FC } from 'react';",
       "",
-      "interface ${TM_FILENAME_BASE}Props {",
+      "interface ${TM_FILENAME_BASE/(.)(.*)/${1:/upcase}${2}/}Props {",
       "  $1",
       "}",
       "",
-      "const $TM_FILENAME_BASE: FC<${TM_FILENAME_BASE}Props> = ({$2}) => {",
-      "  return <div>$TM_FILENAME_BASE</div>",
+      "const ${TM_FILENAME_BASE/(.)(.*)/${1:/upcase}${2}/}: FC<${TM_FILENAME_BASE/(.)(.*)/${1:/upcase}${2}/}Props> = ({$2}) => {",
+      "  return <div>${TM_FILENAME_BASE/(.)(.*)/${1:/upcase}${2}/}</div>",
       "}",
       "",
-      "export default $TM_FILENAME_BASE"
+      "export default ${TM_FILENAME_BASE/(.)(.*)/${1:/upcase}${2}/}"
     ],
     "description": "Typescript React Function Component"
   }
