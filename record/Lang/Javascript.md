@@ -4,7 +4,7 @@
 
 答：[JavaScript is generally considered an interpreted language, but modern JavaScript engines no longer just interpret JavaScript, they compile it.](https://nodejs.org/en/learn/getting-started/the-v8-javascript-engine#compilation)
 
-这句话指的是 JavaScript 通常被认为是一种解释型语言，但是现代 JavaScript 引擎已经不仅仅是解释 JavaScript 代码了，它们对其进行了编译。让我们来拆解一下：
+JavaScript 通常被认为是一种解释型语言，但是现代 JavaScript 引擎已经不仅仅是解释 JavaScript 代码了，它们对其进行了编译：
 
 1. **解释型语言（Interpreted Language）**：这种语言的代码在运行时逐行被解释器执行，不需要事先编译成机器码。JavaScript 通常被归类为解释型语言，因为它在运行时由浏览器或 Node.js 解释器逐行执行。
 
@@ -14,7 +14,7 @@
 
 ### js 如何被编译
 
-1. **即时编译（Just-In-Time Compilation，JIT）**：现代 JavaScript 引擎通常采用 JIT 编译技术。JIT 编译器在运行时分析代码，并将其部分或全部编译成本地机器码，以便更快地执行。这使得 JavaScript 代码的执行速度接近于原生的编译语言。
+1. **即时编译（Just-In-Time Compilation，JIT）**：现代 JavaScript 引擎通常采用 JIT 编译技术。JIT 编译器在运行时分析代码，并将其**部分或全部编译成本地机器码**，以便更快地执行。这使得 JavaScript 代码的执行速度接近于原生的编译语言。
 
 2. **优化技术**：JavaScript 引擎使用各种优化技术来提高代码执行效率，例如内联缓存、逃逸分析、循环优化等。这些技术可以使得 JavaScript 代码在运行时更快地执行，并且更有效地利用计算资源。
 
@@ -28,7 +28,13 @@
 
 ### 什么是 nodejs(js) 事件循环
 
-[The event loop is what allows Node.js to perform non-blocking I/O operations — despite the fact that JavaScript is single-threaded — by offloading operations to the system kernel whenever possible.](https://nodejs.org/en/learn/asynchronous-work/event-loop-timers-and-nexttick#the-nodejs-event-loop)
+#### Event loops in the HTML standard
+
+[To coordinate events, user interaction, scripts, rendering, networking, and so forth, user agents must use event loops as described in this section. Each agent has an associated event loop, which is unique to that agent.](https://html.spec.whatwg.org/multipage/webappapis.html#definitions-3)
+
+#### node
+
+[The event loop is what allows Node.js to perform non-blocking I/O operations — despite the fact that JavaScript is single-threaded — by offloading operations to the system kernel whenever possible.](https://nodejs.org/en/learn/asynchronous-work/event-loop-timers-and-nexttick#what-is-the-event-loop)
 
 这句话解释了 Node.js 中事件循环（event loop）的作用以及 JavaScript 单线程特性下如何实现非阻塞 I/O 操作的原理。让我们逐步解释：
 
