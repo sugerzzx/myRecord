@@ -26,17 +26,89 @@ JavaScript 通常被认为是一种解释型语言，但是现代 JavaScript 引
 
 ## js 异步编程
 
-### 什么是 nodejs(js) 事件循环
+### js 事件循环
 
 #### Event loops in the HTML standard
 
 [To coordinate events, user interaction, scripts, rendering, networking, and so forth, user agents must use event loops as described in this section. Each agent has an associated event loop, which is unique to that agent.](https://html.spec.whatwg.org/multipage/webappapis.html#definitions-3)
 
-#### node
+HTML 标准中关于事件循环的定义强调了用户代理（User Agent）必须使用事件循环来协调各种任务的执行，包括事件处理、用户交互、脚本执行、页面渲染、网络请求等等。具体来说，这段定义表明了以下几点：
+
+1. **任务协调**：用户代理必须使用事件循环来协调各种任务的执行，以确保页面的各种行为按照预期进行。这些任务包括处理事件、响应用户交互、执行 JavaScript 脚本、渲染页面、处理网络请求等等。
+
+2. **事件循环的必要性**：为了管理和调度这些任务，用户代理必须依赖事件循环机制。事件循环能够有效地处理异步任务，并且确保它们按照正确的顺序和时机执行。
+
+3. **每个用户代理拥有独立的事件循环**：每个用户代理都有自己的事件循环，这个事件循环是唯一的，并且与其他用户代理的事件循环是独立的。这意味着每个用户代理都可以根据自身的需求和实现细节来管理任务的执行，而不会受到其他代理的影响。
+
+综上所述，HTML 标准中的事件循环定义强调了事件循环在 Web 浏览器中的重要性，以及用户代理必须使用事件循环来协调各种任务的执行，以确保页面的各种行为按照预期进行。
+
+#### task queues | 任务队列
+
+_An event loop has one or more task queues. A task queue is a set of tasks._
+
+事件循环包含一个或多个任务队列，每个队列中都有一组待执行的任务。
+任务队列被描述为集合而不是队列，因为事件循环处理模型不是按照队列的方式处理任务。相反，它从所选队列中抓取第一个可运行的任务，而不是按照队列的顺序逐个出队任务。
+
+_Tasks encapsulate algorithms that are responsible for such work as:_
+
+任务封装了负责以下工作的算法：
+
+1. **事件（Events）**：
+
+   - 事件的分发（dispatching）通常由一个专用的任务完成。这意味着当事件发生时，例如点击事件、键盘事件等，浏览器会调用相应的事件处理程序，并将事件对象传递给它。
+   - 并非所有事件都是通过任务队列分发的，许多事件在其他任务执行过程中分发。
+
+2. **解析（Parsing）**：
+
+   - HTML 解析器处理一或多个字节并解析出标记（tokens），然后处理任何生成的标记。这通常是一个任务，用于解析 HTML 内容并将其转换为 DOM 结构。
+
+3. **回调（Callbacks）**：
+
+   - 调用回调函数通常由一个专用的任务完成。例如，当定时器到期时，浏览器会调用相应的回调函数来执行定时器任务。
+
+4. **资源使用（Using a resource）**：
+
+   - 当算法获取资源时，如果获取是以非阻塞方式进行的，则一旦资源的一部分或全部可用，资源的处理就会由一个任务来执行。这通常涉及对获取的资源进行处理和使用。
+
+5. **对 DOM 操作的响应（Reacting to DOM manipulation）**：
+   - 一些元素具有在对 DOM 进行操作时触发的任务，例如将元素插入文档时。这些任务通常用于处理与 DOM 操作相关的工作，例如更新页面布局或触发其他事件。
+
+综上所述，任务是浏览器中执行各种工作的算法的封装。它们负责处理事件分发、解析 HTML、调用回调函数、使用资源以及对 DOM 操作的响应等各种任务。
+
+_Formally, a task is a struct which has:_
+
+1. **任务的形式定义**：
+
+   - 任务被形式化定义为一个结构，其中包含以下几个字段：
+     - 步骤（Steps）：指定了任务要执行的工作的一系列步骤。
+     - 来源（Source）：任务的来源，用于对相关任务进行分组和序列化。
+     - 文档（Document）：与任务关联的文档对象，如果任务不在窗口事件循环中，则为 null。
+     - 脚本评估环境设置对象集合（Script Evaluation Environment Settings Object Set）：用于跟踪任务执行期间的脚本评估环境设置的对象集合。
+   - 可运行的任务是指其文档要么是 null，要么是完全活动的。
+
+2. **任务源和任务队列的概念**：
+
+   - 任务源用于在标准中区分逻辑上不同类型的任务，以便用户代理能够区分它们。
+   - 任务队列由用户代理用于在给定的事件循环中汇总任务源。
+   - 每个事件循环中的每个任务源必须与一个特定的任务队列关联。
+
+3. **示例**：
+   - 用户代理可以为鼠标和键盘事件分配一个任务队列，为其他任务源分配另一个任务队列。然后，用户代理可以根据事件循环处理模型的规定，在绝大多数时间内优先处理键盘和鼠标事件，以保持界面响应性，但不会让其他任务队列被饿死。这样的设置保证了用户代理永远不会以任何一种任务源的事件顺序处理事件。
+
+综上所述，任务源和任务队列的概念有助于用户代理将不同类型的任务进行分组和处理，并且在事件循环中协调它们的执行，从而保证了整个系统的稳定性和性能。
+
+#### microtask queue | 微任务队列
+
+_The microtask queue is not a task queue._
+
+尽管微任务队列也包含一组待执行的任务，但它不是任务队列的一种形式。
+微任务队列是一种特殊的队列，它在每个事件循环迭代的末尾被执行。微任务队列中的任务具有比任务队列中的任务更高的优先级，并且在执行完当前事件循环迭代中的所有宏任务后立即执行
+
+#### The Node.js Event Loop
 
 [The event loop is what allows Node.js to perform non-blocking I/O operations — despite the fact that JavaScript is single-threaded — by offloading operations to the system kernel whenever possible.](https://nodejs.org/en/learn/asynchronous-work/event-loop-timers-and-nexttick#what-is-the-event-loop)
 
-这句话解释了 Node.js 中事件循环（event loop）的作用以及 JavaScript 单线程特性下如何实现非阻塞 I/O 操作的原理。让我们逐步解释：
+这句话解释了 Node.js 中事件循环（event loop）的作用以及 JavaScript 单线程特性下如何实现非阻塞 I/O 操作的原理。逐步解释：
 
 1. **事件循环（event loop）**：事件循环是 Node.js 的核心机制之一，用于处理异步操作和事件驱动的编程范式。它负责接收和分发事件，并且在事件发生时执行相应的回调函数。
 
@@ -54,9 +126,9 @@ JavaScript 通常被认为是一种解释型语言，但是现代 JavaScript 引
 
 **因此**，浏览器中的 JavaScript 同样利用事件循环和非阻塞 I/O 操作来处理异步任务。例如，浏览器中的 Ajax 请求、DOM 事件处理、定时器等都是异步的，它们不会阻塞主线程的执行，而是通过事件循环和回调函数来处理。
 
-#### Event Loop 解释
+##### Event Loop 工作原理
 
-让我们一步一步来理解 Node.js 启动过程及其事件循环如何工作：
+逐步理解 Node.js 启动过程及其事件循环如何工作：
 
 1. **初始化:** 当您启动 Node.js 应用程序时，它首先会初始化一些内部变量和设置，例如全局对象和模块系统。
 
@@ -102,7 +174,7 @@ JavaScript 通常被认为是一种解释型语言，但是现代 JavaScript 引
 
 每个**阶段**都有一个遵循先进先出 (FIFO) 原则的**回调队列**。事件循环依次处理这些阶段，每个阶段都会先执行该阶段特有的操作，然后依次处理队列中的回调函数，直到队列为空或达到最大回调处理限制。一旦处理完该阶段的队列，事件循环就会进入下一个阶段，继续按照同样的方式执行。
 
-#### 阶段概述
+##### 阶段概述
 
 1. **timers（定时器）**：
 
@@ -128,23 +200,23 @@ JavaScript 通常被认为是一种解释型语言，但是现代 JavaScript 引
 6. **close callbacks（关闭回调）**：
    - 一些关闭事件的回调函数在这个阶段被执行，例如 `socket.on('close', ...)`。
 
-### 阶段详述
+##### 阶段详述
 
-#### timers（定时器）
+###### timers（定时器）
 
-#### pending callbacks（挂起回调）
+###### pending callbacks（挂起回调）
 
-#### idle、prepare
+###### idle、prepare
 
-#### poll（轮询）
+###### poll（轮询）
 
-#### check（检查）
+###### check（检查）
 
-#### close callbacks（关闭回调）
+###### close callbacks（关闭回调）
 
-#### setImmediate 和 setTimeout
+###### setImmediate 和 setTimeout
 
-### process.nextTick
+##### process.nextTick
 
 1. **`process.nextTick()` 不是事件循环的一部分**：
 
@@ -159,7 +231,7 @@ JavaScript 通常被认为是一种解释型语言，但是现代 JavaScript 引
 
 这段话的重点在于强调 `process.nextTick()` 的特殊性，以及它对事件循环执行流程的影响。通过理解这些概念，可以更好地优化和管理异步代码，避免可能导致性能问题的陷阱。
 
-### js 异步 api
+##### 异步 api
 
 在 Node.js 中，异步 API 通常涉及系统内核完成底层任务，比如文件 I/O 操作、网络通信等。Node.js 的 libuv 库会负责管理事件循环和异步操作，以确保高效执行。
 
@@ -170,42 +242,6 @@ JavaScript 通常被认为是一种解释型语言，但是现代 JavaScript 引
 ### Promise
 
 为什么需要 Promise，因为使用回调函数实现的异步编程，在连续执行两个或者多个异步操作时，会出现回调地狱的问题，代码难以维护和阅读。Promise 是一种更优雅的解决方案，它可以更好地处理异步操作，避免回调地狱的问题。
-
-```js
-// 使用回调函数实现异步操作
-function readFile
-('file.txt', function (err, data) {
-  if (err) {
-    console.error('Error reading file:', err);
-  } else {
-    console.log('File content:', data);
-  }
-});
-
-// 使用 Promise 实现异步操作
-const readFile = (filename) => {
-  return new Promise((resolve, reject) => {
-    fs.readFile(filename, (
-      err,
-      data
-    ) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(data);
-      }
-    });
-  });
-};
-
-readFile('file.txt')
-  .then((data) => {
-    console.log('File content:', data);
-  })
-  .catch((err) => {
-    console.error('Error reading file:', err);
-  });
-```
 
 ### queueMicrotask 和 prosess.nextTick
 
@@ -262,3 +298,27 @@ process.nextTick(() => console.log(1));
 这就解释了为什么在上述示例中，以不同的模块加载方式运行时，输出结果会有所不同。
 
 ## JS 模块
+
+### ...
+
+## Executable Code and Execution Contexts(可执行代码和执行上下文)
+
+### Agent
+
+[An agent comprises a set of ECMAScript execution contexts, an execution context stack, a running execution context, an Agent Record, and an executing thread. Except for the executing thread, the constituents of an agent belong exclusively to that agent.An agent's executing thread executes algorithmic steps on the agent's execution contexts independently of other age](https://tc39.es/ecma262/#sec-agents)
+
+[Conceptually, the agent concept is an architecture-independent, idealized "thread" in which JavaScript code runs. Such code can involve multiple globals/realms that can synchronously access each other, and thus needs to run in a single execution thread.](https://html.spec.whatwg.org/multipage/webappapis.html#agents-and-agent-clusters)
+
+根据 ECMAScript 的定义和 HTML 标准的描述，可以总结出 "agent" 概念如下：
+
+1. **概念**：
+
+   - "Agent" 是一个抽象的概念，代表了执行 ECMAScript 代码的环境或执行上下文。
+   - 在 ECMAScript 中，一个 "agent" 包含了一组 ECMAScript 执行上下文（execution contexts）、执行上下文栈（execution context stack）、正在运行的执行上下文（running execution context）、Agent 记录（Agent Record）以及一个执行线程（executing thread）。
+   - 在 HTML 标准中，"agent" 被理解为一个与体系结构无关、理想化的执行线程，用于运行 JavaScript 代码。这个执行线程允许 JavaScript 代码涉及到多个全局对象（globals）或者执行环境（realms），并且能够同步访问彼此。因此，JavaScript 代码需要在单个执行线程中运行。
+
+2. **特点**：
+   - 每个 "agent" 是独立的，拥有自己的一组执行上下文、执行上下文栈等，并且这些组成部分只属于该 "agent"。
+   - "Agent" 的概念旨在提供一种理想化的、与体系结构无关的执行环境，使得 JavaScript 代码能够在其中运行，包括涉及多个全局对象（globals）或执行环境（realms）的情况。
+
+综上所述，"agent" 概念是 ECMAScript 和 HTML 标准中描述的一种执行环境或执行上下文，它提供了一种理想化的、独立的执行线程，用于运行 JavaScript 代码，并且能够处理多个全局对象或执行环境之间的同步访问。
