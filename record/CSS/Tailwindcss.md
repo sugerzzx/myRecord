@@ -96,3 +96,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 ```
+
+## react 中 tailwind 无法根据 state 生成动态样式
+
+在 React 中,使用 Tailwind CSS 时,想根据 state 生成动态样式是不可行的。使用比如`className={p-[${state}]}` 这样的写法是无效的。因为 Tailwind CSS 是基于构建时的静态分析,无法在运行时动态生成样式。这时只能使用*css 变量*或者*行内样式*来动态修改样式。
