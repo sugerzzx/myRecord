@@ -1,30 +1,22 @@
 # StncilJS
 
-## 1. StencilJS 介绍
+## What is StencilJS
 
-StencilJS 是一个用于**构建 Web 组件**的工具和框架,它是基于 Web 组件规范的,允许您创建可重用、跨框架的组件,可以在不同的前端框架或原生 JavaScript 应用中使用。StencilJS 由 Ionic 团队开发,旨在提供一个高性能、可扩展的方式来构建 Web 组件,以满足现代 Web 应用程序的需求。
+[Overview](https://stenciljs.com/docs/introduction)
 
-以下是 StencilJS 的一些关键特点和概念：
+Stencil 是一个生成 Web Components（更具体地说是 Custom Elements）的**编译器**。 Stencil 将一些最流行框架的最佳概念结合到一个简单的构建时工具中。
 
-1. 基于 Web 组件：StencilJS 遵循 Web 组件标准,这使得您的组件可以无缝集成到各种前端框架,包括 React、Angular、Vue 等,以及纯原生 JavaScript 应用中。
+Stencil 使用 **TypeScript、JSX** 和 CSS 创建符合标准的 Web 组件，可用于制作高质量的组件库。
 
-2. 性能优化：StencilJS 专注于性能,它通过使用虚拟 DOM 和异步渲染等技术来加速组件的渲染,以提供更快的用户体验。
+使用 Stencil 生成的 Web Components 可以直接与流行的框架一起使用。 此外，Stencil 还可以生成特定于框架的包装器，允许 Stencil 组件与特定于框架的开发人员体验一起使用。
 
-3. TypeScript 支持：StencilJS 是用 TypeScript 编写的,因此它提供了强类型支持,有助于开发者编写可维护的代码。
+与直接使用 Custom Elements APIs 相比，Stencil 提供了更为方便的 API，使编写快速组件变得更加简单。 借助 **Virtual DOM**、**JSX** 和**异步渲染**，可以轻松创建快速且功能强大的组件，并且仍 100% 兼容 Web Components 标准。 除了使编写自定义元素变得更加容易之外，Stencil 还在 Web 组件之上添加了许多关键功能，例如**预渲染**和 _objects-as-properties_（而不仅仅是字符串）。
 
-4. 开发工具：StencilJS 提供了一套丰富的开发工具,包括自动生成的文档、测试工具、构建工具等,以简化组件的开发、测试和部署过程。
+开发人员体验也进行了调整，并带有实时重新加载和编译器中内置的小型开发服务器。
 
-5. JSX 语法：StencilJS 使用类似于 React 的 JSX 语法来构建组件,这使得开发者可以借助熟悉的语法来创建组件。
+## Web Component
 
-6. 自定义样式：StencilJS 支持使用 Shadow DOM 来封装组件的样式,以避免样式污染和冲突问题。
-
-7. 生命周期钩子：StencilJS 提供了丰富的生命周期钩子,允许开发者在组件的不同生命周期阶段执行自定义逻辑。
-
-StencilJS 的主要目标是使 Web 组件的开发更容易,并提供出色的性能。它适用于构建可复用的组件库、单页面应用程序（SPA）以及各种 Web 应用程序,无论您使用哪个前端框架或技术栈。如果您正在寻找一种灵活、高性能的方式来创建 Web 组件,StencilJS 可能是一个不错的选择。
-
-## 2. Web Component
-
-https://developer.mozilla.org/zh-CN/docs/Web/API/Web_components
+[Web Component](https://developer.mozilla.org/zh-CN/docs/Web/API/Web_components)
 
 Web 组件是一种用于构建可重用、独立的 Web 界面元素的技术和规范，旨在提供一种跨框架、跨平台的组件化开发方式。Web 组件包括以下几个主要部分：
 
@@ -48,9 +40,11 @@ Web 组件的优点包括：
 
 然而，Web 组件也面临一些挑战，包括浏览器兼容性问题和复杂的开发流程。为了更轻松地创建和使用 Web 组件，许多现代前端框架和库提供了对 Web 组件的支持和封装，使其更易于集成到应用程序中。
 
+## Components
+
 ### Properties
 
-Props 是自定义的属性(attributes)/参数(parameters)，他们使开发者可以向组件中传递数据用于渲染(render)或者其他用途。
+[Props 是自定义的属性(attributes)/参数(parameters)，他们使开发者可以向组件中传递数据用于渲染(render)或者其他用途。](https://stenciljs.com/docs/properties)
 
 #### Prop 装饰器(@Prop())
 
@@ -75,3 +69,51 @@ export class TodoList {
   }
 }
 ```
+
+Stencil will expose name as an attribute on the element, which can be set wherever the component is used:
+
+```jsx
+/* Here we use the component in a TSX file */
+<todo-list name={"Tuesday's To-Do List"}></todo-list>
+```
+
+```html
+<!-- Here we use the component in an HTML file -->
+<todo-list name="Tuesday's To-Do List"></todo-list>
+```
+
+#### Variable Casing
+
+[HTML 中的 attribute 名是大小写不敏感的，所以浏览器会把所有大写字符解释为小写字符。这意味着当你使用 DOM 中的模板时，camelCase (驼峰命名法) 的 prop 名需要使用其等价的 kebab-case (短横线分隔命名) 命名：](https://v2.cn.vuejs.org/v2/guide/components-props.html#Prop-%E7%9A%84%E5%A4%A7%E5%B0%8F%E5%86%99-camelCase-vs-kebab-case)
+
+```html
+<todo-list-item thing-to-do="Learn about Stencil Props"></todo-list-item>
+```
+
+## Testing
+
+### Overview
+
+为了确保组件按照预期方式工作和展示，Stencil 提供了开箱即用的工具以用来进行测试，包括单元测试和端到端测试。
+
+#### 单元测试对比端到端测试
+
+在 Stencil 中：
+
+**单元测试**侧重于单独测试*组件的 methods*。 例如，当一个方法被赋予参数 X 时，它应该返回 Y。
+
+**端到端测试**重点关注**组件如何在 DOM 中呈现**以及各个**组件如何协同工作**。 例如，当 my-component 具有 X 属性时，子组件将渲染文本 Y，并期望接收事件 Z。
+
+#### 支持的工具
+
+Stencil 目前支持以下工具来测试组件：
+
+- **Stencil Test Runner**：一个 Stencil 自带的、基于 Jest 的用于 UT 和 e2e Testing 的测试工具，并且使用 Puppeteer 在实际浏览器中运行，以提供更真实的结果。
+
+- **WebdriverIO**：Node.js 的浏览器和移动自动化测试框架，允许您跨所有浏览器运行组件和端到端测试。
+
+- **Playwright**：一个自动化的端到端测试框架，可以在所有主要浏览器上运行
+
+### Stencil Test Runner
+
+####

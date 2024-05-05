@@ -322,3 +322,8 @@ process.nextTick(() => console.log(1));
    - "Agent" 的概念旨在提供一种理想化的、与体系结构无关的执行环境，使得 JavaScript 代码能够在其中运行，包括涉及多个全局对象（globals）或执行环境（realms）的情况。
 
 综上所述，"agent" 概念是 ECMAScript 和 HTML 标准中描述的一种执行环境或执行上下文，它提供了一种理想化的、独立的执行线程，用于运行 JavaScript 代码，并且能够处理多个全局对象或执行环境之间的同步访问。
+
+
+## Document Collection
+
+[Private Members in JavaScript](https://www.crockford.com/javascript/private.html)
