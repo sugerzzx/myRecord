@@ -1,6 +1,4 @@
-# StncilJS
-
-## What is StencilJS
+# What is StencilJS
 
 [Overview](https://stenciljs.com/docs/introduction)
 
@@ -40,13 +38,13 @@ Web 组件的优点包括：
 
 然而，Web 组件也面临一些挑战，包括浏览器兼容性问题和复杂的开发流程。为了更轻松地创建和使用 Web 组件，许多现代前端框架和库提供了对 Web 组件的支持和封装，使其更易于集成到应用程序中。
 
-## Components
+# Components
 
-### Properties
+## Properties
 
 [Props 是自定义的属性(attributes)/参数(parameters)，他们使开发者可以向组件中传递数据用于渲染(render)或者其他用途。](https://stenciljs.com/docs/properties)
 
-#### Prop 装饰器(@Prop())
+### Prop 装饰器(@Prop())
 
 在组件中使用 Stenci 装饰器`@Prop()`来声明 props
 
@@ -82,7 +80,7 @@ Stencil will expose name as an attribute on the element, which can be set wherev
 <todo-list name="Tuesday's To-Do List"></todo-list>
 ```
 
-#### Variable Casing
+### Variable Casing
 
 [HTML 中的 attribute 名是大小写不敏感的，所以浏览器会把所有大写字符解释为小写字符。这意味着当你使用 DOM 中的模板时，camelCase (驼峰命名法) 的 prop 名需要使用其等价的 kebab-case (短横线分隔命名) 命名：](https://v2.cn.vuejs.org/v2/guide/components-props.html#Prop-%E7%9A%84%E5%A4%A7%E5%B0%8F%E5%86%99-camelCase-vs-kebab-case)
 
@@ -90,13 +88,13 @@ Stencil will expose name as an attribute on the element, which can be set wherev
 <todo-list-item thing-to-do="Learn about Stencil Props"></todo-list-item>
 ```
 
-## Testing
+# Testing
 
-### Overview
+## Overview
 
 为了确保组件按照预期方式工作和展示，Stencil 提供了开箱即用的工具以用来进行测试，包括单元测试和端到端测试。
 
-#### 单元测试对比端到端测试
+### 单元测试对比端到端测试
 
 在 Stencil 中：
 
@@ -104,7 +102,7 @@ Stencil will expose name as an attribute on the element, which can be set wherev
 
 **端到端测试**重点关注**组件如何在 DOM 中呈现**以及各个**组件如何协同工作**。 例如，当 my-component 具有 X 属性时，子组件将渲染文本 Y，并期望接收事件 Z。
 
-#### 支持的工具
+### 支持的工具
 
 Stencil 目前支持以下工具来测试组件：
 
@@ -114,6 +112,55 @@ Stencil 目前支持以下工具来测试组件：
 
 - **Playwright**：一个自动化的端到端测试框架，可以在所有主要浏览器上运行
 
-### Stencil Test Runner
+## Stencil Test Runner
 
-####
+### Overview
+
+Stencil 有一个内置的测试运行程序，基于 Jest 和 Puppeteer
+
+> Puppeteer 是一个基于 Node.js 的库，它提供了一个高级 API，用于通过开发者工具协议（DevTools Protocol）来控制 Chrome 或 Chromium 浏览器。它的主要功能是通过模拟用户行为来执行各种浏览器操作，比如加载页面、点击按钮、填写表单等。Puppeteer 默认以无界面模式（headless）运行，但也可以配置为以完整模式（headful）运行，即显示浏览器窗口。这使得 Puppeteer 成为一个强大的工具，可以用于自动化测试、网络爬虫、网页截图生成等各种用途。
+
+#### 测试命令
+
+模板测试使用命令 `stencil test` 运行，后跟一个或多个可选标志：
+
+- `--spec`：运行单元测试
+
+- `--e2e`：运行端到端测试
+
+- `--watchAll`：监视所有测试文件的更改，并在更改时重新运行测试
+  指定要运行的测试文件的路径。默认情况下，它将运行所有位于 `src/components/**/*.spec.ts` 中的测试文件。
+
+下面是一系列示例 npm 脚本，可以将其添加到项目的 package.json 文件中以运行 Stencil 测试：
+
+```json
+{
+  "scripts": {
+    "test": "stencil test --spec",
+    "test.watch": "stencil test --spec --watchAll",
+    "test.end-to-end": "stencil test --e2e"
+  }
+}
+```
+
+##### 配置
+
+Stencil 将应用它已经收集的数据的默认值。 例如，Stencil 已经知道要查看哪些目录，以及哪些文件是 spec 和 e2e 文件。 仍然可以使用相同的配置名称来配置 Jest，但现在使用模板配置测试属性。 请参阅测试配置文档以获取更多信息。
+
+##### 命令行参数
+
+虽然 Stencil CLI 提供了一组特定的命令行标志来指定，例如 要运行哪种类型的测试，您还可以通过 CLI 访问所有 Jest 选项。 例如，要指定单个测试，您可以通过添加 -- 向 Jest 传递位置参数，例如：
+
+```bash
+# run a single unit test
+npx stencil test --spec -- src/components/my-component/my-component.spec.ts
+# run a single e2e test
+npx stencil test --e2e -- src/components/my-component/my-component.e2e.ts
+```
+
+除了位置参数之外，Stencil 还传递某些 Jest 特定标志，例如：
+
+```bash
+# enable code coverage
+npx stencil test --spec --coverage
+```
