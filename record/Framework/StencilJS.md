@@ -122,7 +122,7 @@ Stencil 有一个内置的测试运行程序，基于 Jest 和 Puppeteer
 
 #### 测试命令
 
-模板测试使用命令 `stencil test` 运行，后跟一个或多个可选标志：
+使用`stencil test`命令可以运行 Stencil 的测试，后跟一个或多个可选标志：
 
 - `--spec`：运行单元测试
 
@@ -149,7 +149,7 @@ Stencil 将应用它已经收集的数据的默认值。 例如，Stencil 已经
 
 ##### 命令行参数
 
-虽然 Stencil CLI 提供了一组特定的命令行标志来指定，例如 要运行哪种类型的测试，您还可以通过 CLI 访问所有 Jest 选项。 例如，要指定单个测试，您可以通过添加 -- 向 Jest 传递位置参数，例如：
+虽然 Stencil CLI 提供了一组特定的命令行标志来指定如何运行测试，例如：要运行哪种类型的测试，但是你还可以通过 CLI 访问所有 Jest 选项。 例如，要指定单个测试，您可以通过添加 -- 向 Jest 传递位置参数，例如：
 
 ```bash
 # run a single unit test
@@ -164,3 +164,7 @@ npx stencil test --e2e -- src/components/my-component/my-component.e2e.ts
 # enable code coverage
 npx stencil test --spec --coverage
 ```
+
+### Unit Testing
+
+#### newSpecPage()
