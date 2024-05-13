@@ -102,7 +102,7 @@ Stencil will expose name as an attribute on the element, which can be set wherev
 
 **端到端测试**重点关注**组件如何在 DOM 中呈现**以及各个**组件如何协同工作**。 例如，当 my-component 具有 X 属性时，子组件将渲染文本 Y，并期望接收事件 Z。
 
-详细地说：
+即：
 
 **单元测试（Unit Tests）**：
 
@@ -191,4 +191,46 @@ npx stencil test --spec --coverage
 
 ### Unit Testing
 
-#### newSpecPage()
+在 Stencil 测试中，你可以使用两种不同的测试方法：使用 `new` 实例化一个组件和使用 `newSpecPage` 渲染一个组件，它们适用于不同的场景：
+
+1. **使用 `new` 实例化组件进行测试**：
+
+   - 这种方式是直接在测试中创建一个组件的实例对象，然后对实例对象进行操作和断言。
+   - 适用于简单的单元测试场景，例如测试组件的方法、状态、事件处理等。
+   - 这种方式不涉及组件的生命周期、渲染过程或虚拟 DOM，因此测试更加轻量快速。
+
+   ```tsx
+   import { MyComponent } from "./my-component";
+
+   describe("MyComponent", () => {
+     it("should render correctly", () => {
+       const component = new MyComponent();
+       // 对组件实例进行操作和断言
+       expect(component.prop).toBe("value");
+     });
+   });
+   ```
+
+2. **使用 `newSpecPage` 虚拟渲染一个组件**：
+
+   - 这种方式是使用 Stencil 提供的 `newSpecPage` 方法来虚拟渲染一个组件，并获取一个包含了组件的虚拟 DOM 的页面对象。
+   - 适用于需要测试组件的渲染结果、生命周期、事件处理等场景。
+   - 这种方式更接近实际的组件渲染过程，可以测试组件在真实 DOM 环境下的行为。
+
+   ```tsx
+   import { newSpecPage } from "@stencil/core/testing";
+   import { MyComponent } from "./my-component";
+
+   describe("MyComponent", () => {
+     it("should render correctly", async () => {
+       const page = await newSpecPage({
+         components: [MyComponent],
+         html: '<my-component prop="value"></my-component>',
+       });
+       // 对虚拟 DOM 进行断言
+       expect(page.root).toEqualHtml('<my-component prop="value"></my-component>');
+     });
+   });
+   ```
+
+如果你只需要测试组件的简单行为、方法或状态，可以使用 `new` 实例化组件进行测试；如果需要测试组件的渲染结果、生命周期、事件处理等复杂场景，建议使用 `newSpecPage` 虚拟渲染一个组件进行测试。
