@@ -29,3 +29,11 @@
 # WebRTC
 
 [WebRTC](https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API)
+
+# Media Source Extensions (MSE)
+
+[MSE_w3c](https://w3c.github.io/media-source/)
+
+[MediaSource Interface](https://developer.mozilla.org/en-US/docs/Web/API/MediaSource)
+
+[Media Source API](https://developer.mozilla.org/en-US/docs/Web/API/Media_Source_Extensions_API)
