@@ -18,6 +18,24 @@ React 的渲染机制是其核心之一，理解这个机制对于有效地使�
 
 总的来说，React 的渲染机制通过 Virtual DOM 和协调技术实现了高效的 DOM 更新，从而提高了应用程序的性能和用户体验。理解 React 的渲染机制有助于开发者编写更高效、更可靠的 React 应用程序。
 
+### react 是如何将 jsx 编译成 dom 的
+
+当编写 React 应用程序时，通常会使用 JSX（JavaScript XML）来描述 UI 的结构。JSX 看起来像是 HTML，但实际上是 JavaScript 的语法扩展，它允许你在 JavaScript 中直接编写 XML 格式的代码，这样可以更直观、更易读地描述 UI 结构。
+
+然而，浏览器无法直接理解 JSX，因此在编译过程中，JSX 会被转换成普通的 JavaScript 代码，这个过程被称为 JSX 编译。在 React 中，通常会使用 Babel 来进行 JSX 的编译。Babel 是一个 JavaScript 编译器，可以将高级 JavaScript 代码转换成低级的 JavaScript 代码，使得它们能够在不同的环境中运行。
+
+下面是 JSX 编译的基本步骤：
+
+1. **解析：** 首先，Babel 会将 JSX 代码解析成抽象语法树（AST），这个过程类似于将普通的 JavaScript 代码解析成 AST。
+
+2. **转换：** 接下来，Babel 会对 AST 进行转换，将 JSX 元素转换成对应的 JavaScript 函数调用。例如，将 `<div>` 元素转换成 `React.createElement('div', ...)`。
+
+3. **生成：** 最后，Babel 会将转换后的 JavaScript 代码生成为可执行的 JavaScript 代码，这样浏览器就可以理解并执行这段代码了。
+
+在 React 应用程序中，当 JSX 代码被编译成普通的 JavaScript 代码后，React 会根据这些代码来创建 Virtual DOM 对象。然后，React 使用 Virtual DOM 来管理和渲染 UI，最终将 UI 渲染到实际的 DOM 上。这个过程发生在组件被渲染时，以及在状态或属性发生变化时需要更新组件时。
+
+总的来说，JSX 编译是将 JSX 代码转换成普通的 JavaScript 代码的过程，这样可以让浏览器理解和执行 JSX 代码，并且在 React 应用程序中通过 Virtual DOM 实现高效的 UI 渲染。
+
 ### 保持组件纯粹
 
 在 React 中，“Keeping Components Pure”指的是保持组件的纯净性或纯函数性。纯函数是指在相同的输入下始终返回相同的输出，并且不产生副作用的函数。
@@ -270,3 +288,11 @@ React 通过一种叫做“事务”（Transaction）的机制来实现状态更
 3. **调度更新：** 一旦状态更新被调度，React 会重新渲染受影响的组件，并将新的状态应用到实际的 DOM 中。这个过程通过协调算法来比较新旧状态，确定哪些组件需要更新，并最终更新实际的 DOM。
 
 通过这种批处理的方式，React 可以尽量减少不必要的重复渲染，提高性能，并确保更新的一致性。同时，这种机制也确保了事件处理函数中的所有代码都执行完毕后再处理状态更新，避免了在更新过程中出现意外的情况。
+
+### useRef
+
+`useRef` Hook 用于在函数组件中创建一个可变的引用。它返回一个包含 `current` 属性的对象，该属性可以存储任意值，并且在组件的多次渲染之间保持不变。
+
+## TODO
+
+直接嵌套的子组件会随父组件 re-render 而 re-render,但是通过 children 传递的子组件不会随父组件 re-render 而 re-render
