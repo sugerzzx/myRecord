@@ -18,6 +18,8 @@
 
 ## Webpack
 
+[Webpack is a static module bundler for modern JavaScript applications](https://webpack.js.org/)
+
 ## GulpJs
 
 Gulp.js 是一个基于 Node.js 的前端构建工具，也被称为任务运行器。它可以帮助你自动化常见的开发任务，如压缩 JavaScript 文件、编译 CSS 预处理器、刷新浏览器等。Gulp.js 使用流（stream）的概念，使得你可以将多个操作连接在一起以创建更高效的构建流程。
@@ -35,13 +37,53 @@ Gulp.js 的主要特点包括：
 ### 利用 Gulp.js 重新组织打包完毕的文件结构及文件名
 
 ```javascript
+const gulp = require("gulp");
+const rename = require("gulp-rename");
 
+const timestamp = new Date().getTime();
+
+gulp.task("rename", function () {
+  return gulp
+    .src("dist/*.js")
+    .pipe(rename({ suffix: `-${timestamp}` }))
+    .pipe(gulp.dest("lib"));
+});
 ```
 
 ### 利用 Gulp.js 实现 css 插入
 
 ```javascript
+const cssText = "$cssText";
 
+class CustomElement extends HTMLElement {
+  constructor() {
+    super();
+    this.attachShadow({ mode: "open" });
+  }
+
+  connectedCallback() {
+    this.shadowRoot.innerHTML = `
+      <style>
+        ${this.css}
+      </style>
+      <div>Hello, World!</div>
+    `;
+  }
+}
+```
+
+在你的 Gulp.js 配置文件中，你可以使用 `gulp-replace` 插件来替换 `$cssText` 为你的 CSS 文本。
+
+```javascript
+const gulp = require("gulp");
+const replace = require("gulp-replace");
+const fs = require("fs");
+
+const cssText = fs.readFileSync("src/style.css", "utf8");
+
+gulp.task("insert-css", function () {
+  return gulp.src("src/index.js").pipe(replace("$cssText", cssText)).pipe(gulp.dest("dist"));
+});
 ```
 
 ## Source Map
@@ -53,3 +95,5 @@ JavaScript Source Map（JS Source Map）是一个映射文件，它可以将压�
 Source Map 文件是一个 JSON 格式的文件，包含了源代码和生成代码之间的位置
 
 ## SystemJS
+
+SystemJS 是一个模块加载器，它支持 ES6 模块、AMD、CommonJS 等多种模块规范。SystemJS 可以在浏览器中动态加载模块，支持模块的异步加载和按需加载。
