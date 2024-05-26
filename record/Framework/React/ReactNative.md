@@ -1,6 +1,6 @@
 # ReactNative
 
-## ReactNative 简介
+[React Native allows developers who know React to create native apps.](https://reactnative.dev/docs/environment-setup)
 
 React Native 是 Facebook 开发的一个开源的跨平台移动应用框架。它主要的特点包括:
 
@@ -13,9 +13,11 @@ React Native 是 Facebook 开发的一个开源的跨平台移动应用框架。
   React Native 的工作原理是在平台原生 UI 组件和 JavaScript 代码之间建立了一个 Bridge。JavaScript 代码可以调用 Bridge 提供的接口来控制原生组件的布局、样式等,原生组件也可以通过 Bridge 向 JavaScript 发送事件通知。
   ![RN工作原理](../../src/RN//RNWorkPrinciple.png)
 
-## RN 组件
+# RN 组件
 
-### 核心组件
+[components-and-apis](https://reactnative.dev/docs/components-and-apis)
+
+## 核心组件
 
 React Native 提供了一系列核心组件,用于构建应用界面，他们不需要任何额外的软件包，核心组件的一个重要特点是，他们可以转化为平台原生组件。
 
@@ -53,9 +55,7 @@ React Native 提供了一系列核心组件,用于构建应用界面，他们不
 
 - WebView: 用于显示 Web 页面。
 
-#### View
-
-### 社区组件
+## 社区组件
 
 - React Navigation: 用于导航。
 
@@ -63,13 +63,9 @@ React Native 提供了一系列核心组件,用于构建应用界面，他们不
 
 - React Native Maps: 用于显示地图。
 
-- React Native Video: 用于播放视频。
+### react-native-video
 
-### 自定义原生组件
-
-你可以使用平台原生语言编写原生组件，然后通过 Bridge 机制将原生组件暴露给 JavaScript 代码。
-
-## 社区组件使用
+[react-native-video is a React Native library that provides a Video component that renders media content such as videos and streams](https://thewidlarzgroup.github.io/react-native-video#about)
 
 ### react-native-splash-screen
 
@@ -167,3 +163,7 @@ const App: FC<Props> = () => {
 
 export default App;
 ```
+
+## 自定义原生组件
+
+你可以使用平台原生语言编写原生组件，然后通过 Bridge 机制将原生组件暴露给 JavaScript 代码。
