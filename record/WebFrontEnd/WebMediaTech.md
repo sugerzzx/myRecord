@@ -40,6 +40,10 @@
 
 [Media Source API](https://developer.mozilla.org/en-US/docs/Web/API/Media_Source_Extensions_API)
 
+# Stream Api
+
+[The Streams API allows JavaScript to programmatically access streams of data received over the network and process them as desired by the developer.](https://developer.mozilla.org/en-US/docs/Web/API/Streams_API)
+
 # ServerSide
 
 ## FFmpeg
